@@ -5,23 +5,47 @@ import Link from "next/link";
 import { Plus } from "lucide-react";
 import { InputPanel } from "./InputPanel";
 import { ResultsDashboard } from "./ResultsDashboard";
+import type { AnalysisResult } from "@/lib/types/analysis";
 
 export function AnalyzePage() {
   const [message, setMessage] = useState("");
   const [context, setContext] = useState("recruiter");
   const [goal, setGoal] = useState("understand");
   const [isLoading, setIsLoading] = useState(false);
+  const [result, setResult] = useState<AnalysisResult | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  function handleAnalyze() {
+  async function handleAnalyze() {
     if (!message.trim() || isLoading) return;
     setIsLoading(true);
-    setTimeout(() => setIsLoading(false), 1800);
+    setError(null);
+    try {
+      const res = await fetch("/api/analyze", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message, context, goal }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error ?? "Something went wrong. Please try again.");
+        setResult(null);
+      } else {
+        setResult(data.result);
+      }
+    } catch {
+      setError("Network error. Please check your connection and try again.");
+      setResult(null);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   function handleReset() {
     setMessage("");
     setContext("recruiter");
     setGoal("understand");
+    setResult(null);
+    setError(null);
   }
 
   return (
@@ -33,7 +57,7 @@ export function AnalyzePage() {
           className="flex items-center gap-2 select-none"
           aria-label="SubtextAI home"
         >
-          <div className="flex flex-col gap-[3px]" aria-hidden="true">
+          <div className="flex flex-col gap-0.75" aria-hidden="true">
             <span className="block w-4 h-px bg-emerald-400" />
             <span className="block w-2.5 h-px bg-emerald-400/50" />
           </div>
@@ -61,7 +85,7 @@ export function AnalyzePage() {
       {/* 2-column layout */}
       <div className="flex-1 flex flex-col lg:flex-row lg:overflow-hidden">
         {/* Left: Input panel */}
-        <aside className="lg:w-[400px] xl:w-[440px] shrink-0 lg:overflow-y-auto border-b lg:border-b-0 lg:border-r border-[#111111]">
+        <aside className="lg:w-100 xl:w-110 shrink-0 lg:overflow-y-auto border-b lg:border-b-0 lg:border-r border-[#111111]">
           <InputPanel
             message={message}
             context={context}
@@ -76,7 +100,7 @@ export function AnalyzePage() {
 
         {/* Right: Results */}
         <main className="flex-1 lg:overflow-y-auto">
-          <ResultsDashboard isLoading={isLoading} />
+          <ResultsDashboard isLoading={isLoading} result={result} error={error} />
         </main>
       </div>
     </div>
