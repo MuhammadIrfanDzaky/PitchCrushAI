@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 
@@ -9,6 +10,72 @@ const STATS = [
   { value: "< 5s",  label: "Per analysis" },
   { value: "9",     label: "Signal layers" },
 ] as const;
+
+const SIGNAL_EXAMPLES = [
+  { phrase: "We're Uber for lawyers",        signal: "Generic positioning detected", variant: "red"   as const },
+  { phrase: "AI helps SMBs grow",             signal: "No moat signal",              variant: "amber" as const },
+  { phrase: "We automate back-office work",   signal: "Too broad to defend",         variant: "amber" as const },
+  { phrase: "The market is huge",             signal: "Weak evidence",               variant: "red"   as const },
+] as const;
+
+const SIGNAL_STYLES = {
+  red:   "text-red-600 bg-red-50 border border-red-100",
+  amber: "text-amber-600 bg-amber-50 border border-amber-100",
+} as const;
+
+function PitchSignalTicker() {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => setIndex((p) => (p + 1) % SIGNAL_EXAMPLES.length), 3500);
+    return () => clearInterval(id);
+  }, []);
+
+  const { phrase, signal, variant } = SIGNAL_EXAMPLES[index];
+
+  return (
+    <div className="flex flex-col gap-1.5">
+      <p className="text-[10px] text-stone-400 font-mono uppercase tracking-widest">
+        Detects patterns like
+      </p>
+
+      {/* Card with fixed height to prevent layout shift */}
+      <div className="bg-white border border-[#E7E0D6] rounded-xl px-4 py-3 shadow-sm w-full max-w-sm min-h-[64px] flex flex-col justify-center overflow-hidden">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 9 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -9 }}
+            transition={{ duration: 0.28, ease: "easeInOut" }}
+          >
+            <p className="text-[13px] text-stone-800 font-medium leading-snug">
+              &ldquo;{phrase}&rdquo;
+            </p>
+            <div className="flex items-center gap-1.5 mt-1.5">
+              <span className="text-stone-400 text-[10px] leading-none" aria-hidden="true">↳</span>
+              <span className={`text-[11px] font-semibold px-1.5 py-0.5 rounded-md ${SIGNAL_STYLES[variant]}`}>
+                {signal}
+              </span>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      {/* Progress dots */}
+      <div className="flex items-center gap-1 pl-0.5" aria-hidden="true">
+        {SIGNAL_EXAMPLES.map((_, i) => (
+          <span
+            key={i}
+            className={`h-1 rounded-full transition-all duration-300 ${
+              i === index ? "w-4 bg-stone-400" : "w-1 bg-[#E7E0D6]"
+            }`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 const ANALYSIS_ROWS = [
   { label: "Biggest Weakness",    value: "No proof of traction",   color: "text-amber-400" },
@@ -166,6 +233,11 @@ export function Hero() {
               Paste your pitch. Get brutally honest feedback simulating how VCs,
               customers, and competitors will tear it apart &mdash; in seconds.
             </motion.p>
+
+            {/* Rotating signal ticker */}
+            <motion.div variants={itemVariants}>
+              <PitchSignalTicker />
+            </motion.div>
 
             {/* CTAs */}
             <motion.div

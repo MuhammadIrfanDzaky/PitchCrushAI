@@ -315,7 +315,7 @@ export function generateFallbackAnalysis(
   message: string,
   context: string,
   // goal parameter available for future context-aware branching
-  _goal: string
+  _goal?: string
 ): AnalysisResult {
   const text = message.toLowerCase();
   const wordCount = message.trim().split(/\s+/).length;
