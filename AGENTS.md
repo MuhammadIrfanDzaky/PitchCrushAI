@@ -2,13 +2,13 @@
 
 ## Project Name
 
-SubtextAI
+PitchCrush AI
 
 ## Product Mission
 
 Build a premium AI-native SaaS product that helps users decode what people really mean in messages, emails, and conversations.
 
-SubtextAI is NOT a generic chatbot.
+PitchCrush AI is NOT a generic chatbot.
 
 It is a communication intelligence engine.
 

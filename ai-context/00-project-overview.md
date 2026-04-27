@@ -1,7 +1,7 @@
-# SubtextAI
+# PitchCrush AI
 
 ## Product Name
-SubtextAI
+PitchCrush AI
 
 ## Tagline
 Decode what people really mean.
@@ -27,7 +27,7 @@ Build a real SaaS-feeling AI product, not a toy chatbot.
 
 ## Product Positioning
 
-SubtextAI is not a chatbot.
+PitchCrush AI is not a chatbot.
 
 It is a decision-support AI for communication.
 

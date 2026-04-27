@@ -53,7 +53,3 @@ export interface AnalyzeResponse {
 export interface AnalyzeErrorResponse {
   error: string;
 }
-
-export interface AnalyzeErrorResponse {
-  error: string;
-}

@@ -36,18 +36,18 @@ export function AnalyzingLoader() {
       {/* Layered rings with center dot */}
       <div className="relative w-20 h-20 flex items-center justify-center" aria-hidden="true">
         <span
-          className="absolute inset-0 rounded-full border border-emerald-500/15 animate-ping"
+          className="absolute inset-0 rounded-full border border-red-500/15 animate-ping"
           style={{ animationDuration: "2s" }}
         />
         <span
-          className="absolute inset-3 rounded-full border border-emerald-500/20 animate-ping"
+          className="absolute inset-3 rounded-full border border-red-500/20 animate-ping"
           style={{ animationDuration: "2s", animationDelay: "0.4s" }}
         />
         <span
-          className="absolute inset-6 rounded-full border border-emerald-500/30 animate-ping"
+          className="absolute inset-6 rounded-full border border-red-500/30 animate-ping"
           style={{ animationDuration: "2s", animationDelay: "0.8s" }}
         />
-        <div className="relative w-2 h-2 rounded-full bg-emerald-400 shadow-sm shadow-emerald-400/60" />
+        <div className="relative w-2 h-2 rounded-full bg-red-400 shadow-sm shadow-red-400/60" />
       </div>
 
       <div className="flex flex-col items-center gap-5 w-full max-w-64">
@@ -71,7 +71,7 @@ export function AnalyzingLoader() {
         <div className="w-full">
           <div className="h-0.5 bg-[#1a1a1a] rounded-full overflow-hidden">
             <motion.div
-              className="h-full bg-linear-to-r from-emerald-600 to-emerald-400 rounded-full"
+              className="h-full bg-linear-to-r from-red-600 to-red-400 rounded-full"
               animate={{ width: `${step.pct}%` }}
               transition={{ duration: 0.6, ease: "easeOut" }}
             />
@@ -81,7 +81,7 @@ export function AnalyzingLoader() {
               <div
                 key={s.label}
                 className={`w-1 h-1 rounded-full transition-colors duration-300 ${
-                  i <= index ? "bg-emerald-500" : "bg-[#1e1e1e]"
+                  i <= index ? "bg-red-500" : "bg-[#1e1e1e]"
                 }`}
                 aria-hidden="true"
               />
@@ -138,10 +138,10 @@ export function ReanalyzingOverlay() {
             strokeWidth="2"
             strokeLinecap="round"
             strokeDasharray="60 40"
-            className="text-emerald-500"
+            className="text-red-500"
           />
         </svg>
-        <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+        <div className="w-1.5 h-1.5 rounded-full bg-red-400" />
       </div>
 
       {/* Rotating text */}

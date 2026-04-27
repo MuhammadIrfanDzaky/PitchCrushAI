@@ -15,7 +15,7 @@ const STEPS = [
   {
     number: "02",
     Icon: Cpu,
-    title: "AI plays devil&#39;s advocate",
+    title: "AI plays devil's advocate",
     description:
       "Nine signal layers activate simultaneously: skepticism, moat risk, investor red flags, weak phrases, customer doubt, and more.",
     detail: "Under 5 seconds, every time.",
@@ -25,7 +25,7 @@ const STEPS = [
     Icon: Lightbulb,
     title: "Rebuild stronger",
     description:
-      "Get a confidence-ranked rewrite recommendation &mdash; hardened against the exact objections investors will raise.",
+      "Get a confidence-ranked rewrite \u2014 hardened against the exact objections investors will raise.",
     detail: "Ship a pitch that holds up.",
   },
 ] as const;

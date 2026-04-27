@@ -5,8 +5,8 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 const PROOF = [
-  { value: "10K+", label: "Pitches crushed" },
-  { value: "9",    label: "Signal layers" },
+  { value: "Free",  label: "No signup required" },
+  { value: "9",     label: "Signal layers" },
   { value: "< 5s", label: "Per analysis" },
 ] as const;
 

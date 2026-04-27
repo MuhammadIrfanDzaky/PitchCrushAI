@@ -54,8 +54,8 @@ export function AnalyzePage() {
 
   function handleReset() {
     setMessage("");
-    setContext("recruiter");
-    setGoal("understand");
+    setContext("investor");
+    setGoal("find_weaknesses");
     setResult(null);
     setError(null);
   }

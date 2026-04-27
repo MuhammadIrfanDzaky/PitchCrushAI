@@ -103,7 +103,7 @@ export function InputPanel({
       {/* Context selector */}
       <div>
         <p className="text-[11px] text-neutral-600 uppercase tracking-[0.14em] font-medium mb-3">
-          Simulate audience
+          Stress test mode
         </p>
         <div className="grid grid-cols-4 gap-1.5">
           {CONTEXTS.map(({ value, label, Icon }) => (

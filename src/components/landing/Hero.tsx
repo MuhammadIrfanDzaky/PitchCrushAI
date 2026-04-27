@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 
 const STATS = [
-  { value: "10K+",  label: "Pitches crushed" },
+  { value: "Free",  label: "No signup required" },
   { value: "< 5s",  label: "Per analysis" },
   { value: "9",     label: "Signal layers" },
 ] as const;
@@ -111,8 +111,8 @@ export function Hero() {
     <section className="relative min-h-screen flex items-center px-6 pt-24 pb-20 overflow-hidden">
       {/* Ambient glow */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute top-1/4 left-1/4 w-175 h-175 rounded-full bg-emerald-500/5 blur-[160px]" />
-        <div className="absolute bottom-1/3 right-1/4 w-100 h-100 rounded-full bg-cyan-500/4 blur-[100px]" />
+        <div className="absolute top-1/4 left-1/4 w-175 h-175 rounded-full bg-red-500/5 blur-[160px]" />
+        <div className="absolute bottom-1/3 right-1/4 w-100 h-100 rounded-full bg-red-500/3 blur-[100px]" />
       </div>
 
       {/* Grid */}
@@ -218,7 +218,7 @@ export function Hero() {
             {/* Card glow border */}
             <div
               aria-hidden="true"
-              className="absolute -inset-px rounded-2xl bg-linear-to-b from-emerald-500/10 via-transparent to-transparent pointer-events-none z-10"
+              className="absolute -inset-px rounded-2xl bg-linear-to-b from-red-500/10 via-transparent to-transparent pointer-events-none z-10"
             />
             <AppMockup />
           </motion.div>
