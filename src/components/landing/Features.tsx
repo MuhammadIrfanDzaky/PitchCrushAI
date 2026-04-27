@@ -24,7 +24,7 @@ function FeaturedCell() {
           Recommended Reply
         </h3>
         <p className="text-sm text-neutral-600 leading-relaxed max-w-xs">
-          Don't just understand the message — know exactly what to say next. Every reply is
+          Don&apos;t just understand the message &mdash; know exactly what to say next. Every reply is
           ranked by confidence and optimized for your goal.
         </p>
       </div>
@@ -36,7 +36,7 @@ function FeaturedCell() {
             Their message
           </p>
           <p className="text-xs text-neutral-500 leading-relaxed mt-1.5">
-            "We'll need to reassess budget timing before we can move forward with the proposal."
+            &ldquo;We&apos;ll need to reassess budget timing before we can move forward with the proposal.&rdquo;
           </p>
         </div>
         <div className="px-4 py-3.5 space-y-1.5">
@@ -49,8 +49,8 @@ function FeaturedCell() {
             </span>
           </div>
           <p className="text-xs text-neutral-400 leading-relaxed pt-0.5">
-            "I'd love to align on a structure that works within your timeline — happy to explore
-            a phased approach if that helps."
+            &ldquo;I&apos;d love to align on a structure that works within your timeline &mdash; happy to explore
+            a phased approach if that helps.&rdquo;
           </p>
         </div>
         <div className="px-4 py-3 border-t border-[#141414] flex items-center gap-3">
@@ -197,49 +197,4 @@ export function Features() {
     </section>
   );
 }
-
-
-const FEATURES = [
-  {
-    Icon: Eye,
-    title: "Surface Meaning",
-    description: "Instantly understand the literal content of any message.",
-  },
-  {
-    Icon: Target,
-    title: "Hidden Intent",
-    description: "Uncover what the sender really wants, even when unspoken.",
-  },
-  {
-    Icon: BarChart3,
-    title: "Interest Score",
-    description: "Quantify genuine engagement on a 0–100 confidence scale.",
-  },
-  {
-    Icon: TrendingUp,
-    title: "Power Dynamic",
-    description: "See who holds leverage in the conversation and why.",
-  },
-  {
-    Icon: Zap,
-    title: "Emotional Tone",
-    description: "Map the emotional undercurrents driving the message.",
-  },
-  {
-    Icon: ShieldAlert,
-    title: "Red Flags",
-    description: "Catch manipulation, deflection, and evasion signals early.",
-  },
-  {
-    Icon: MessageSquare,
-    title: "Recommended Reply",
-    description:
-      "Get a strategically crafted response optimized for your goal.",
-  },
-  {
-    Icon: CheckCircle2,
-    title: "Confidence Score",
-    description: "Know how certain the AI is about its analysis.",
-  },
-] as const;
 

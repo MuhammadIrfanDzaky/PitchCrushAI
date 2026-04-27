@@ -40,7 +40,7 @@ function AppMockup() {
           Message
         </p>
         <p className="text-sm text-neutral-300 leading-relaxed">
-          "Thanks for the offer. I'll need to think it over and get back to you by end of week."
+          &ldquo;Thanks for the offer. I&apos;ll need to think it over and get back to you by end of week.&rdquo;
         </p>
       </div>
 
@@ -88,7 +88,7 @@ function AppMockup() {
             </span>
           </div>
           <p className="text-sm text-neutral-300 leading-relaxed">
-            "I appreciate the offer. I'd like 48 hours to review the full terms before committing."
+            &ldquo;I appreciate the offer. I&apos;d like 48 hours to review the full terms before committing.&rdquo;
           </p>
         </div>
       </div>
