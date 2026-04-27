@@ -11,6 +11,7 @@ import {
   Globe,
   Sparkles,
   RotateCcw,
+  Flame,
 } from "lucide-react";
 
 interface InputPanelProps {
@@ -25,6 +26,7 @@ interface InputPanelProps {
 }
 
 const CONTEXTS = [
+  { value: "brutal_vc",    label: "Brutal VC", Icon: Flame },
   { value: "investor",     label: "Investor",  Icon: TrendingUp },
   { value: "customer",    label: "Customer",  Icon: Users },
   { value: "competitor",  label: "Competitor", Icon: Swords },
@@ -112,11 +114,19 @@ export function InputPanel({
               onClick={() => onContextChange(value)}
               aria-pressed={context === value}
               aria-label={`Set context to ${label}`}
-              className={`flex flex-col items-center gap-1.5 py-3 px-1 rounded-xl border text-[10px] font-medium transition-all duration-150 select-none leading-none ${
-                context === value
-                  ? "bg-emerald-50 border-emerald-300 text-emerald-700"
-                  : "bg-white border-[#E7E0D6] text-stone-500 hover:text-stone-800 hover:border-[#D4CBBF]"
-              }`}
+              className={[
+                "rounded-xl border font-medium transition-all duration-150 select-none leading-none",
+                value === "brutal_vc"
+                  ? "col-span-4 flex items-center justify-center gap-2 py-2.5 px-4 text-[11px]"
+                  : "flex flex-col items-center gap-1.5 py-3 px-1 text-[10px]",
+                value === "brutal_vc"
+                  ? context === "brutal_vc"
+                    ? "bg-red-600 border-red-600 text-white"
+                    : "bg-white border-[#E7E0D6] text-stone-600 hover:text-red-700 hover:border-red-300 hover:bg-red-50"
+                  : context === value
+                    ? "bg-emerald-50 border-emerald-300 text-emerald-700"
+                    : "bg-white border-[#E7E0D6] text-stone-500 hover:text-stone-800 hover:border-[#D4CBBF]",
+              ].join(" ")}
             >
               <Icon className="w-4 h-4 shrink-0" aria-hidden="true" />
               {label}

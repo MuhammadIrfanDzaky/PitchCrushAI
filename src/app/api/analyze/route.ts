@@ -14,6 +14,7 @@ const VALID_CONTEXTS = new Set([
   "board",
   "yc_interview",
   "general",
+  "brutal_vc",
 ]);
 
 const VALID_GOALS = new Set([
@@ -102,6 +103,38 @@ Rules:
 - strongerRewrite: Make it specific, defensible, and compelling. Lead with traction or insight if possible.
 - confidenceScore: integer 0–100. Your confidence in this critique given available context.
 - Return ONLY the JSON object. No markdown, no code fences, no explanation outside the JSON.`;
+
+/* ─── Context-aware system prompt ──────────────────────────────── */
+
+function getSystemPrompt(context: string): string {
+  if (context !== "brutal_vc") return SYSTEM_PROMPT;
+  return (
+    SYSTEM_PROMPT +
+    `
+
+## BRUTAL VC MODE — MAXIMUM SCRUTINY
+
+You are now simulating a top-tier VC who has deployed $500M+ across 200+ investments. You have passed on 50 unicorns, funded 10, and you have zero patience for fuzzy thinking.
+
+Apply maximum scrutiny. Be specific — not theatrical. Destroy vague claims with precision, not volume.
+
+In addition to your standard analysis, aggressively interrogate each of the following:
+
+1. **Why now?** — Is there a genuine timing arbitrage? What market or technology shift makes this viable today that wasn't viable 3 years ago? If the answer is vaguely "AI," that's not an answer.
+2. **Why this team?** — What is the founder's structural unfair advantage? Domain expertise, proprietary distribution, or a non-obvious insight? A smart generalist team with no edge gets passed.
+3. **Why can't incumbents copy this?** — Name the structural barrier explicitly. A better UI is not a moat. What makes this defensible in 18 months when a well-funded clone shows up?
+4. **Why will customers pay urgently?** — Is this a painkiller or a vitamin? What is the urgency trigger that makes a customer buy now rather than wait 6 months?
+5. **What is the single weakest assumption?** — The one premise that, if wrong, kills the entire thesis. State it plainly.
+6. **What sounds like generic AI startup language?** — Quote specific words from the pitch. Call out every buzzword, vague superlative, and claim that could appear in any of 10,000 other decks.
+
+Rules for Brutal VC mode:
+- \`biggestWeakness\`: Must be the most specific, devastating critique possible. No generic feedback.
+- \`likelyInvestorQuestion\`: Must be the hardest possible question — the one that ends the meeting if unanswered.
+- \`skepticismScore\`: Default to 70–95 range unless the pitch contains exceptional, verifiable traction evidence.
+- \`weakPhrases\`: Extract 4–5 items. Be merciless about AI startup clichés.
+- \`strongerRewrite\`: Demonstrate what fundable looks like — lead with traction, specificity, or proprietary insight.`
+  );
+}
 
 /* ─── Parse JSON with fallback strategies ───────────────────────── */
 
@@ -202,7 +235,7 @@ ${message.trim()}
       body: JSON.stringify({
         model: "anthropic/claude-3.7-sonnet",
         messages: [
-          { role: "system", content: SYSTEM_PROMPT },
+          { role: "system", content: getSystemPrompt(context) },
           { role: "user", content: userPrompt },
         ],
         max_tokens: 900,

@@ -330,14 +330,15 @@ export function generateFallbackAnalysis(
   const hasMarketClaim = MARKET_CLAIM_RE.test(text);
   const hasProblem = PROBLEM_RE.test(text);
   const hasCompetitorContext = COMPETITOR_RE.test(text);
-  const isInvestorContext = ["investor", "demo_day", "yc_interview", "board"].includes(context);
+  const isInvestorContext = ["investor", "demo_day", "yc_interview", "board", "brutal_vc"].includes(context);
+  const isBrutalVC = context === "brutal_vc";
 
   // --- Scores ---
   const buzzPenalty = Math.min(foundBuzzwordCount * 9, 32);
   const tractionBonus = hasTraction ? 18 : 0;
   const metricsBonus = hasSpecificMetrics ? 8 : 0;
   const problemBonus = hasProblem ? 5 : 0;
-  const baseSkepticism = isInvestorContext ? 62 : 54;
+  const baseSkepticism = isBrutalVC ? 72 : isInvestorContext ? 62 : 54;
 
   const skepticismScore = Math.round(
     Math.min(
