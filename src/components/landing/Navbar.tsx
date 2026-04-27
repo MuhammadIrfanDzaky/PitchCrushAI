@@ -30,15 +30,15 @@ export function Navbar() {
         <Link
           href="/"
           className="flex items-center gap-2 select-none group"
-          aria-label="SubtextAI home"
+          aria-label="PitchCrush AI home"
         >
-          {/* Logo mark: two stacked lines = "subtext" */}
+          {/* Logo mark: target/crush icon */}
           <div className="flex flex-col gap-0.75 py-0.5" aria-hidden="true">
-            <span className="block w-4 h-px bg-emerald-400" />
-            <span className="block w-2.5 h-px bg-emerald-400/50" />
+            <span className="block w-4 h-px bg-red-400" />
+            <span className="block w-2.5 h-px bg-red-400/50" />
           </div>
           <span className="font-semibold text-white text-[15px] tracking-tight leading-none">
-            Subtext<span className="text-emerald-400">AI</span>
+            PitchCrush<span className="text-red-400">AI</span>
           </span>
         </Link>
 
@@ -72,9 +72,9 @@ export function Navbar() {
           </Link>
           <Link
             href="/analyze"
-            className="h-8 px-4 flex items-center rounded-full bg-white text-black text-[13px] font-medium hover:bg-neutral-100 active:scale-[0.97] transition-all duration-150 select-none"
+            className="h-8 px-4 flex items-center rounded-full bg-red-500 text-white text-[13px] font-medium hover:bg-red-400 active:scale-[0.97] transition-all duration-150 select-none"
           >
-            Try for Free
+            Crush My Pitch
           </Link>
         </div>
 

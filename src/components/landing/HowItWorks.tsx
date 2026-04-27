@@ -7,26 +7,26 @@ const STEPS = [
   {
     number: "01",
     Icon: ClipboardPaste,
-    title: "Paste your message",
+    title: "Paste your pitch",
     description:
-      "Drop in any text — email, DM, job offer, client brief, or casual conversation. No formatting needed.",
-    detail: "Works with any language or tone.",
+      "Drop in any pitch format — one-liner, cold email, deck summary, YC application, or investor memo. No formatting needed.",
+    detail: "Supports any pitch format.",
   },
   {
     number: "02",
     Icon: Cpu,
-    title: "AI reads the subtext",
+    title: "AI plays devil&#39;s advocate",
     description:
-      "Eight signal layers activate simultaneously: intent, tone, power, emotion, red flags, and more.",
-    detail: "Under 3 seconds, every time.",
+      "Nine signal layers activate simultaneously: skepticism, moat risk, investor red flags, weak phrases, customer doubt, and more.",
+    detail: "Under 5 seconds, every time.",
   },
   {
     number: "03",
     Icon: Lightbulb,
-    title: "Reply with an edge",
+    title: "Rebuild stronger",
     description:
-      "Get a confidence-ranked reply recommendation — crafted for your specific goal, not just politeness.",
-    detail: "Know exactly what to say next.",
+      "Get a confidence-ranked rewrite recommendation &mdash; hardened against the exact objections investors will raise.",
+    detail: "Ship a pitch that holds up.",
   },
 ] as const;
 
@@ -48,12 +48,14 @@ export function HowItWorks() {
           </p>
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
             <h2 className="text-4xl md:text-[56px] font-semibold text-white tracking-tighter leading-[1.03] max-w-lg">
-              From message
+              Paste.
               <br />
-              to clarity.
+              Get crushed.
+              <br />
+              Rebuild stronger.
             </h2>
             <p className="text-neutral-600 text-sm max-w-xs lg:text-right leading-relaxed pb-1">
-              Three steps. Zero guessing. Just the full picture.
+              Three steps. Zero sugar-coating. Just honest investor-grade feedback.
             </p>
           </div>
         </motion.div>
@@ -91,8 +93,8 @@ export function HowItWorks() {
                 transition={{ duration: 0.5, delay: i * 0.1, ease: "easeOut" }}
                 className="p-7 rounded-2xl bg-[#111111] border border-[#1a1a1a] hover:border-[#252525] transition-colors duration-300 group flex flex-col gap-5"
               >
-                <div className="w-9 h-9 rounded-xl bg-[#161616] border border-[#222222] flex items-center justify-center group-hover:border-emerald-500/20 group-hover:bg-emerald-500/5 transition-all duration-300">
-                  <Icon className="w-4 h-4 text-neutral-500 group-hover:text-emerald-400 transition-colors duration-300" aria-hidden="true" />
+                <div className="w-9 h-9 rounded-xl bg-[#161616] border border-[#222222] flex items-center justify-center group-hover:border-red-500/20 group-hover:bg-red-500/5 transition-all duration-300">
+                  <Icon className="w-4 h-4 text-neutral-500 group-hover:text-red-400 transition-colors duration-300" aria-hidden="true" />
                 </div>
                 <div>
                   <h3 className="text-[15px] font-semibold text-white mb-2 tracking-tight">
@@ -102,7 +104,7 @@ export function HowItWorks() {
                     {description}
                   </p>
                 </div>
-                <p className="text-[11px] text-emerald-600 font-medium mt-auto pt-2 border-t border-[#161616]">
+                <p className="text-[11px] text-red-500/70 font-medium mt-auto pt-2 border-t border-[#161616]">
                   {detail}
                 </p>
               </motion.div>

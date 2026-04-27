@@ -4,29 +4,30 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Target,
-  TrendingUp,
+  TrendingDown,
   Zap,
   AlertTriangle,
   MessageSquare,
-  CheckCircle2,
   Copy,
   Check,
   Activity,
   Sparkles,
   Quote,
+  HelpCircle,
+  ShieldAlert,
 } from "lucide-react";
 import { AnalyzingLoader, ReanalyzingOverlay } from "./AnalyzingLoader";
 import type { AnalysisResult } from "@/lib/types/analysis";
 
-/* ─── Color map for tone chips ──────────────────────────────────── */
+/* ─── Color map for doubt chips ─────────────────────────────────── */
 
-const TONE_STYLES: Record<string, { text: string; bg: string; border: string }> = {
-  amber: { text: "text-amber-400", bg: "bg-amber-500/8", border: "border-amber-500/20" },
-  blue: { text: "text-blue-400", bg: "bg-blue-500/8", border: "border-blue-500/20" },
+const DOUBT_STYLES: Record<string, { text: string; bg: string; border: string }> = {
+  amber:   { text: "text-amber-400",   bg: "bg-amber-500/8",   border: "border-amber-500/20"   },
+  blue:    { text: "text-blue-400",    bg: "bg-blue-500/8",    border: "border-blue-500/20"    },
   emerald: { text: "text-emerald-400", bg: "bg-emerald-500/8", border: "border-emerald-500/20" },
-  slate: { text: "text-neutral-400", bg: "bg-neutral-500/8", border: "border-neutral-500/20" },
-  purple: { text: "text-purple-400", bg: "bg-purple-500/8", border: "border-purple-500/20" },
-  red: { text: "text-red-400", bg: "bg-red-500/8", border: "border-red-500/20" },
+  slate:   { text: "text-neutral-400", bg: "bg-neutral-500/8", border: "border-neutral-500/20" },
+  purple:  { text: "text-purple-400",  bg: "bg-purple-500/8",  border: "border-purple-500/20"  },
+  red:     { text: "text-red-400",     bg: "bg-red-500/8",     border: "border-red-500/20"     },
 };
 
 /* ─── Circle progress SVG ───────────────────────────────────────── */
@@ -125,34 +126,34 @@ function CardHeader({
 /* ─── Idle / empty state ─────────────────────────────────────────── */
 
 const SIGNAL_PREVIEW = [
-  { label: "Hidden Intent", color: "text-amber-400", bg: "bg-amber-500/8", border: "border-amber-500/15" },
-  { label: "Interest Score", color: "text-emerald-400", bg: "bg-emerald-500/8", border: "border-emerald-500/15" },
-  { label: "Power Dynamic", color: "text-purple-400", bg: "bg-purple-500/8", border: "border-purple-500/15" },
-  { label: "Emotional Tone", color: "text-blue-400", bg: "bg-blue-500/8", border: "border-blue-500/15" },
-  { label: "Red Flags", color: "text-red-400", bg: "bg-red-500/8", border: "border-red-500/15" },
-  { label: "Evidence Signals", color: "text-cyan-400", bg: "bg-cyan-500/8", border: "border-cyan-500/15" },
-  { label: "Recommended Reply", color: "text-emerald-400", bg: "bg-emerald-500/8", border: "border-emerald-500/15" },
-  { label: "Confidence Score", color: "text-neutral-400", bg: "bg-neutral-500/8", border: "border-neutral-500/15" },
+  { label: "Skepticism Score",   color: "text-red-400",     bg: "bg-red-500/8",     border: "border-red-500/15"     },
+  { label: "Clarity Score",      color: "text-emerald-400", bg: "bg-emerald-500/8", border: "border-emerald-500/15" },
+  { label: "Biggest Weakness",   color: "text-amber-400",   bg: "bg-amber-500/8",   border: "border-amber-500/15"   },
+  { label: "Likely Question",    color: "text-blue-400",    bg: "bg-blue-500/8",    border: "border-blue-500/15"    },
+  { label: "Moat Risk",          color: "text-purple-400",  bg: "bg-purple-500/8",  border: "border-purple-500/15"  },
+  { label: "Customer Doubt",     color: "text-amber-400",   bg: "bg-amber-500/8",   border: "border-amber-500/15"   },
+  { label: "Weak Phrases",       color: "text-cyan-400",    bg: "bg-cyan-500/8",    border: "border-cyan-500/15"    },
+  { label: "Stronger Rewrite",   color: "text-emerald-400", bg: "bg-emerald-500/8", border: "border-emerald-500/15" },
+  { label: "Investor Red Flags", color: "text-red-400",     bg: "bg-red-500/8",     border: "border-red-500/15"     },
 ] as const;
 
 function IdleState() {
   return (
     <div className="flex flex-col items-center justify-center h-full min-h-90 gap-7 p-8 select-none">
       <div
-        className="w-12 h-12 rounded-2xl bg-emerald-500/8 border border-emerald-500/15 flex items-center justify-center"
+        className="w-12 h-12 rounded-2xl bg-red-500/8 border border-red-500/15 flex items-center justify-center"
         aria-hidden="true"
       >
-        <Sparkles className="w-5 h-5 text-emerald-400" />
+        <Sparkles className="w-5 h-5 text-red-400" />
       </div>
       <div className="text-center">
         <p className="text-[14px] font-medium text-white tracking-tight">
-          Ready to decode
+          Ready to crush your pitch
         </p>
         <p className="text-[12px] text-neutral-600 mt-1.5 leading-relaxed max-w-64">
-          Paste any message and hit Analyze — we&apos;ll reveal every layer of intent.
+          Paste your pitch and hit Analyze &mdash; we&apos;ll stress test it like a skeptical investor.
         </p>
       </div>
-      {/* Signal preview chips */}
       <div className="flex flex-wrap justify-center gap-2 max-w-xs">
         {SIGNAL_PREVIEW.map(({ label, color, bg, border }) => (
           <span
@@ -240,133 +241,129 @@ export function ResultsDashboard({ isLoading, isReanalyzing, result, error }: Re
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h2 className="text-[15px] font-semibold text-white tracking-tight">
-            Analysis Results
+            Pitch Stress Test
           </h2>
-          <p className="text-[12px] text-neutral-600 mt-0.5">9 signal layers decoded</p>
+          <p className="text-[12px] text-neutral-600 mt-0.5">9 signal layers analyzed</p>
         </div>
-        <span className="text-[10px] text-emerald-600 bg-emerald-500/8 border border-emerald-500/15 px-2.5 py-1 rounded-full font-mono select-none">
+        <span className="text-[10px] text-red-500 bg-red-500/8 border border-red-500/15 px-2.5 py-1 rounded-full font-mono select-none">
           live · AI
         </span>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
-        {/* ── Interest Score ── */}
+        {/* ── Skepticism Score ── */}
         <Card delay={0}>
           <CardHeader
-            icon={<TrendingUp className="w-3.5 h-3.5 text-emerald-400" />}
-            iconColor="bg-emerald-500/10"
-            label="Interest Score"
+            icon={<TrendingDown className="w-3.5 h-3.5 text-red-400" />}
+            iconColor="bg-red-500/10"
+            label="Skepticism Score"
           />
           <div className="flex items-center gap-4">
-            <CircleProgress value={result.interestScore} colorClass="text-emerald-500" />
+            <CircleProgress value={result.skepticismScore} colorClass="text-red-500" />
             <div>
               <p className="text-2xl font-bold text-white tabular-nums leading-none">
-                {result.interestScore}
+                {result.skepticismScore}
                 <span className="text-sm font-normal text-neutral-600"> / 100</span>
               </p>
               <p className="text-[11px] text-neutral-600 mt-2 leading-relaxed">
-                {result.interestScore >= 70
-                  ? "High interest detected."
-                  : result.interestScore >= 40
-                  ? "Moderate interest."
-                  : "Low interest signals."}
+                {result.skepticismScore >= 70
+                  ? "High investor skepticism."
+                  : result.skepticismScore >= 40
+                  ? "Moderate skepticism."
+                  : "Low skepticism — compelling case."}
               </p>
             </div>
           </div>
         </Card>
 
-        {/* ── Confidence Score ── */}
+        {/* ── Clarity Score ── */}
         <Card delay={0.06}>
           <CardHeader
-            icon={<CheckCircle2 className="w-3.5 h-3.5 text-blue-400" />}
-            iconColor="bg-blue-500/10"
-            label="Analysis Confidence"
+            icon={<Activity className="w-3.5 h-3.5 text-emerald-400" />}
+            iconColor="bg-emerald-500/10"
+            label="Clarity Score"
           />
           <div className="flex items-center gap-4">
-            <CircleProgress value={result.confidenceScore} colorClass="text-blue-500" />
+            <CircleProgress value={result.clarityScore} colorClass="text-emerald-500" />
             <div>
               <p className="text-2xl font-bold text-white tabular-nums leading-none">
-                {result.confidenceScore}
-                <span className="text-sm font-normal text-neutral-600">%</span>
+                {result.clarityScore}
+                <span className="text-sm font-normal text-neutral-600"> / 100</span>
               </p>
               <p className="text-[11px] text-neutral-600 mt-2 leading-relaxed">
-                {result.confidenceScore >= 80
-                  ? "High confidence."
-                  : result.confidenceScore >= 55
-                  ? "Moderate confidence."
-                  : "Low signal clarity."}
+                {result.clarityScore >= 75
+                  ? "Clear and compelling."
+                  : result.clarityScore >= 45
+                  ? "Needs sharpening."
+                  : "Confusing or too vague."}
               </p>
             </div>
           </div>
         </Card>
 
-        {/* ── Hidden Intent ── */}
+        {/* ── Biggest Weakness ── */}
         <Card className="sm:col-span-2" delay={0.12}>
           <CardHeader
             icon={<Target className="w-3.5 h-3.5 text-amber-400" />}
             iconColor="bg-amber-500/10"
-            label="Hidden Intent"
+            label="Biggest Weakness"
           />
-          {result.surfaceMeaning && (
+          {result.likelyInvestorQuestion && (
             <p className="text-[11px] text-neutral-700 mb-3 leading-relaxed border-b border-[#1a1a1a] pb-3">
-              <span className="text-neutral-600 font-medium">Surface: </span>
-              {result.surfaceMeaning}
+              <span className="text-neutral-500 font-medium">Likely first question: </span>
+              {result.likelyInvestorQuestion}
             </p>
           )}
-          <p className="text-[13px] text-neutral-400 leading-relaxed">{result.hiddenIntent}</p>
+          <p className="text-[13px] text-neutral-400 leading-relaxed">{result.biggestWeakness}</p>
         </Card>
 
-        {/* ── Power Dynamic ── */}
+        {/* ── Moat Risk ── */}
         <Card className="sm:col-span-2" delay={0.18}>
           <CardHeader
-            icon={<Activity className="w-3.5 h-3.5 text-purple-400" />}
+            icon={<ShieldAlert className="w-3.5 h-3.5 text-purple-400" />}
             iconColor="bg-purple-500/10"
-            label="Power Dynamic"
+            label="Moat Risk"
             badge={
               <span className="text-[11px] text-purple-400 bg-purple-500/8 border border-purple-500/20 px-2.5 py-1 rounded-full font-medium">
-                {result.powerDynamic.label}
+                {result.moatRisk.label}
               </span>
             }
           />
           <div className="mb-4">
             <div className="flex items-center justify-between text-[10px] text-neutral-700 mb-2.5">
-              <span>Sender</span>
-              <span>Receiver</span>
+              <span>Defensible</span>
+              <span>Easily copied</span>
             </div>
             <div className="relative h-1.5 bg-[#1a1a1a] rounded-full">
               <motion.div
-                className="h-full rounded-full bg-linear-to-r from-purple-500 to-purple-500/20"
+                className="h-full rounded-full bg-linear-to-r from-purple-500 to-red-500/60"
                 initial={{ width: 0 }}
-                animate={{ width: `${result.powerDynamic.senderScore}%` }}
+                animate={{ width: `${result.moatRisk.riskScore}%` }}
                 transition={{ duration: 0.9, delay: 0.5, ease: "easeOut" }}
               />
               <div
                 className="absolute w-3 h-3 rounded-full bg-purple-400 border-2 border-[#0d0d0d] shadow-sm"
-                style={{
-                  left: `${result.powerDynamic.senderScore}%`,
-                  top: "50%",
-                  transform: "translate(-50%, -50%)",
-                }}
+                style={{ left: `${result.moatRisk.riskScore}%`, top: "50%", transform: "translate(-50%, -50%)" }}
                 aria-hidden="true"
               />
             </div>
           </div>
           <p className="text-[12px] text-neutral-600 leading-relaxed">
-            {result.powerDynamic.description}
+            {result.moatRisk.description}
           </p>
         </Card>
 
-        {/* ── Emotional Tone ── */}
+        {/* ── Customer Doubt ── */}
         <Card className="sm:col-span-2" delay={0.24}>
           <CardHeader
-            icon={<Zap className="w-3.5 h-3.5 text-cyan-400" />}
-            iconColor="bg-cyan-500/10"
-            label="Emotional Tone"
+            icon={<Zap className="w-3.5 h-3.5 text-amber-400" />}
+            iconColor="bg-amber-500/10"
+            label="Customer Doubt"
           />
           <div className="flex flex-wrap gap-2">
-            {result.emotionalTone.map(({ label, variant }, i) => {
-              const s = TONE_STYLES[variant] ?? TONE_STYLES.slate;
+            {result.customerDoubt.map(({ label, variant }, i) => {
+              const s = DOUBT_STYLES[variant] ?? DOUBT_STYLES.slate;
               return (
                 <motion.span
                   key={`${label}-${i}`}
@@ -382,16 +379,16 @@ export function ResultsDashboard({ isLoading, isReanalyzing, result, error }: Re
           </div>
         </Card>
 
-        {/* ── Red Flags ── */}
+        {/* ── Investor Red Flags ── */}
         <Card className="sm:col-span-2 hover:border-red-500/15" delay={0.3}>
           <CardHeader
             icon={<AlertTriangle className="w-3.5 h-3.5 text-red-400" />}
             iconColor="bg-red-500/10"
-            label="Red Flags"
+            label="Investor Red Flags"
             badge={
-              result.redFlags.length > 0 ? (
+              result.investorRedFlags.length > 0 ? (
                 <span className="text-[11px] text-red-400 bg-red-500/8 border border-red-500/20 px-2.5 py-1 rounded-full font-medium">
-                  {result.redFlags.length} detected
+                  {result.investorRedFlags.length} detected
                 </span>
               ) : (
                 <span className="text-[11px] text-emerald-400 bg-emerald-500/8 border border-emerald-500/20 px-2.5 py-1 rounded-full font-medium">
@@ -400,13 +397,13 @@ export function ResultsDashboard({ isLoading, isReanalyzing, result, error }: Re
               )
             }
           />
-          {result.redFlags.length === 0 ? (
+          {result.investorRedFlags.length === 0 ? (
             <p className="text-[12px] text-neutral-600">
-              No significant red flags detected in this message.
+              No major investor red flags detected in this pitch.
             </p>
           ) : (
             <div className="space-y-2.5">
-              {result.redFlags.map(({ flag, detail }, i) => (
+              {result.investorRedFlags.map(({ flag, detail }, i) => (
                 <motion.div
                   key={`${flag}-${i}`}
                   initial={{ opacity: 0, x: -6 }}
@@ -414,14 +411,9 @@ export function ResultsDashboard({ isLoading, isReanalyzing, result, error }: Re
                   transition={{ duration: 0.35, delay: 0.5 + i * 0.07, ease: "easeOut" }}
                   className="flex items-start gap-3 p-3 rounded-xl bg-[#0A0A0A] border border-[#141414]"
                 >
-                  <div
-                    className="shrink-0 w-1.5 h-1.5 rounded-full bg-red-500 mt-1.25"
-                    aria-hidden="true"
-                  />
+                  <div className="shrink-0 w-1.5 h-1.5 rounded-full bg-red-500 mt-1.25" aria-hidden="true" />
                   <div>
-                    <p className="text-[12px] font-semibold text-red-300 leading-none mb-1.5">
-                      {flag}
-                    </p>
+                    <p className="text-[12px] font-semibold text-red-300 leading-none mb-1.5">{flag}</p>
                     <p className="text-[11px] text-neutral-600 leading-relaxed">{detail}</p>
                   </div>
                 </motion.div>
@@ -430,21 +422,21 @@ export function ResultsDashboard({ isLoading, isReanalyzing, result, error }: Re
           )}
         </Card>
 
-        {/* ── Evidence Signals ── */}
-        {result.evidence && result.evidence.length > 0 && (
+        {/* ── Weak Phrases ── */}
+        {result.weakPhrases && result.weakPhrases.length > 0 && (
           <Card className="sm:col-span-2" delay={0.33}>
             <CardHeader
               icon={<Quote className="w-3.5 h-3.5 text-cyan-400" />}
               iconColor="bg-cyan-500/10"
-              label="Evidence Signals"
+              label="Weak Phrases"
               badge={
                 <span className="text-[11px] text-cyan-400 bg-cyan-500/8 border border-cyan-500/20 px-2.5 py-1 rounded-full font-medium">
-                  {result.evidence.length} phrases
+                  {result.weakPhrases.length} flagged
                 </span>
               }
             />
             <div className="space-y-2.5">
-              {result.evidence.map(({ phrase, meaning }, i) => (
+              {result.weakPhrases.map(({ phrase, meaning }, i) => (
                 <motion.div
                   key={`${phrase}-${i}`}
                   initial={{ opacity: 0, y: 8 }}
@@ -452,20 +444,15 @@ export function ResultsDashboard({ isLoading, isReanalyzing, result, error }: Re
                   transition={{ duration: 0.32, delay: 0.52 + i * 0.06, ease: "easeOut" }}
                   className="group relative overflow-hidden rounded-xl bg-[#0A0A0A] border border-[#141414] hover:border-cyan-500/15 transition-colors duration-200"
                 >
-                  {/* Left accent bar */}
                   <div
                     className="absolute left-0 top-0 bottom-0 w-0.5 bg-linear-to-b from-cyan-500/40 to-cyan-500/0"
                     aria-hidden="true"
                   />
                   <div className="pl-4 pr-3 py-3">
-                    {/* Quoted phrase */}
                     <p className="text-[12px] font-semibold text-white mb-1.5 leading-snug font-mono tracking-tight">
                       &ldquo;{phrase}&rdquo;
                     </p>
-                    {/* Meaning */}
-                    <p className="text-[11px] text-neutral-500 leading-relaxed">
-                      {meaning}
-                    </p>
+                    <p className="text-[11px] text-neutral-500 leading-relaxed">{meaning}</p>
                   </div>
                 </motion.div>
               ))}
@@ -473,34 +460,39 @@ export function ResultsDashboard({ isLoading, isReanalyzing, result, error }: Re
           </Card>
         )}
 
-        {/* ── Recommended Reply ── */}
+        {/* ── Stronger Rewrite ── */}
         <Card className="sm:col-span-2 hover:border-emerald-500/20" delay={0.36}>
           <CardHeader
             icon={<MessageSquare className="w-3.5 h-3.5 text-emerald-400" />}
             iconColor="bg-emerald-500/10"
-            label="Recommended Reply"
+            label="Stronger Rewrite"
             badge={
-              <button
-                onClick={() => handleCopy(result.recommendedReply)}
-                className={`inline-flex items-center gap-1.5 h-7 px-2.5 rounded-lg border text-[11px] font-medium transition-all duration-150 ${
-                  copied
-                    ? "bg-emerald-500/10 border-emerald-500/25 text-emerald-400"
-                    : "bg-[#111111] border-[#1e1e1e] text-neutral-500 hover:text-white hover:border-[#2a2a2a]"
-                }`}
-                aria-label="Copy recommended reply to clipboard"
-              >
-                {copied ? (
-                  <>
-                    <Check className="w-3 h-3" aria-hidden="true" />
-                    Copied
-                  </>
-                ) : (
-                  <>
-                    <Copy className="w-3 h-3" aria-hidden="true" />
-                    Copy
-                  </>
-                )}
-              </button>
+              <div className="flex items-center gap-2">
+                <span className="text-[11px] text-neutral-600 bg-[#111111] border border-[#1e1e1e] px-2.5 py-1 rounded-full font-medium">
+                  {result.confidenceScore}% confidence
+                </span>
+                <button
+                  onClick={() => handleCopy(result.strongerRewrite)}
+                  className={`inline-flex items-center gap-1.5 h-7 px-2.5 rounded-lg border text-[11px] font-medium transition-all duration-150 ${
+                    copied
+                      ? "bg-emerald-500/10 border-emerald-500/25 text-emerald-400"
+                      : "bg-[#111111] border-[#1e1e1e] text-neutral-500 hover:text-white hover:border-[#2a2a2a]"
+                  }`}
+                  aria-label="Copy stronger rewrite to clipboard"
+                >
+                  {copied ? (
+                    <>
+                      <Check className="w-3 h-3" aria-hidden="true" />
+                      Copied
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-3 h-3" aria-hidden="true" />
+                      Copy
+                    </>
+                  )}
+                </button>
+              </div>
             }
           />
           <div className="relative pl-4">
@@ -509,9 +501,24 @@ export function ResultsDashboard({ isLoading, isReanalyzing, result, error }: Re
               aria-hidden="true"
             />
             <blockquote className="text-[13px] text-neutral-300 leading-relaxed italic">
-              &ldquo;{result.recommendedReply}&rdquo;
+              &ldquo;{result.strongerRewrite}&rdquo;
             </blockquote>
           </div>
+        </Card>
+
+        {/* ── Likely Investor Question ── */}
+        <Card className="sm:col-span-2" delay={0.42}>
+          <CardHeader
+            icon={<HelpCircle className="w-3.5 h-3.5 text-blue-400" />}
+            iconColor="bg-blue-500/10"
+            label="Likely Investor Question"
+          />
+          <p className="text-[13px] text-neutral-300 leading-relaxed font-medium">
+            &ldquo;{result.likelyInvestorQuestion}&rdquo;
+          </p>
+          <p className="text-[11px] text-neutral-600 mt-2.5 leading-relaxed">
+            Prepare a crisp, direct answer to this before your next pitch meeting.
+          </p>
         </Card>
 
       </div>

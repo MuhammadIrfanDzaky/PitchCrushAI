@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SubtextAI — Decode what people really mean.",
+  title: "PitchCrush AI — Stress test your startup before investors do.",
   description:
-    "AI-powered communication intelligence. Paste any message and reveal hidden intent, emotional signals, and the smartest next reply.",
+    "AI pitch intelligence. Paste your pitch and get brutal investor-grade feedback: skepticism score, moat risk, weak phrases, red flags, and a stronger rewrite.",
 };
 
 export default function RootLayout({

@@ -5,95 +5,101 @@ import type { AnalysisResult } from "@/lib/types/analysis";
 /* ─── Input allowlists ──────────────────────────────────────────── */
 
 const VALID_CONTEXTS = new Set([
-  "recruiter",
-  "client",
-  "dating",
-  "business",
-  "friendship",
-  "family",
-  "negotiation",
+  "investor",
+  "customer",
+  "competitor",
+  "demo_day",
+  "cold_email",
+  "board",
+  "yc_interview",
   "general",
 ]);
 
 const VALID_GOALS = new Set([
-  "understand",
-  "win_deal",
-  "reply_smart",
-  "spot_manipulation",
-  "improve_chances",
+  "find_weaknesses",
+  "strengthen_pitch",
+  "prep_questions",
+  "spot_fatal_flaws",
+  "improve_clarity",
 ]);
 
 /* ─── Zod schema for AI response ────────────────────────────────── */
 
-const ToneVariantSchema = z.enum(["amber", "blue", "emerald", "slate", "purple", "red"]);
+const DoubtVariantSchema = z.enum(["amber", "blue", "emerald", "slate", "purple", "red"]);
 
 const AnalysisResultSchema = z.object({
-  surfaceMeaning: z.string().min(1),
-  hiddenIntent: z.string().min(1),
-  interestScore: z.number().int().min(0).max(100),
-  powerDynamic: z.object({
+  likelyInvestorQuestion: z.string().min(1),
+  biggestWeakness: z.string().min(1),
+  skepticismScore: z.number().int().min(0).max(100),
+  clarityScore: z.number().int().min(0).max(100),
+  moatRisk: z.object({
     label: z.string().min(1),
-    senderScore: z.number().int().min(0).max(100),
+    riskScore: z.number().int().min(0).max(100),
     description: z.string().min(1),
   }),
-  emotionalTone: z
-    .array(z.object({ label: z.string().min(1), variant: ToneVariantSchema }))
+  customerDoubt: z
+    .array(z.object({ label: z.string().min(1), variant: DoubtVariantSchema }))
     .min(1)
     .max(5),
-  redFlags: z
+  investorRedFlags: z
     .array(z.object({ flag: z.string().min(1), detail: z.string() }))
     .max(5),
-  evidence: z
+  weakPhrases: z
     .array(z.object({ phrase: z.string().min(1), meaning: z.string().min(1) }))
     .min(1)
     .max(5),
-  recommendedReply: z.string().min(1),
+  strongerRewrite: z.string().min(1),
   confidenceScore: z.number().int().min(0).max(100),
 });
 
 /* ─── System prompt ────────────────────────────────────────────── */
 
-const SYSTEM_PROMPT = `You are SubtextAI — an expert in conversational psychology, negotiation dynamics, emotional intelligence, social signaling, and hidden intent analysis.
+const SYSTEM_PROMPT = `You are PitchCrush AI — a brutally honest pitch critic that simulates how investors, customers, and competitors will tear apart a startup pitch.
 
-The user will provide a message along with context (e.g. recruiter, client, dating) and their goal (e.g. understand them, win the deal).
+You think like a pattern-matching Series A VC who has heard 10,000 pitches, a skeptical enterprise buyer who has been burned by vendor hype, and a well-funded competitor who knows every weakness in the market.
 
-Analyze the message deeply and return ONLY valid JSON with this exact structure:
+The user will provide a pitch (one-liner, cold email, deck summary, investor memo, or sales pitch) along with context (e.g. investor, customer, demo_day) and their goal (e.g. find_weaknesses, prep_questions).
+
+Analyze the pitch ruthlessly and return ONLY valid JSON with this exact structure:
 
 {
-  "surfaceMeaning": "What the message literally says in one sentence",
-  "hiddenIntent": "2-3 sentence paragraph on the sender's true motive, subtext, and what they're not saying",
-  "interestScore": 0,
-  "powerDynamic": {
-    "label": "Short label, e.g. 'Sender holds advantage' or 'Balanced dynamic'",
-    "senderScore": 50,
-    "description": "1-2 sentence explanation of the power balance and why"
+  "likelyInvestorQuestion": "The single hardest question an investor would ask first — as if they're interrupting mid-pitch",
+  "biggestWeakness": "2-3 sentence paragraph on the most critical flaw: what assumption is unproven, what is glossed over, what would kill the deal",
+  "skepticismScore": 0,
+  "clarityScore": 0,
+  "moatRisk": {
+    "label": "Short label, e.g. 'Easily replicated' or 'Defensible niche'",
+    "riskScore": 50,
+    "description": "1-2 sentence explanation of how defensible the moat is and what threatens it"
   },
-  "emotionalTone": [
-    { "label": "Tone word", "variant": "amber" }
+  "customerDoubt": [
+    { "label": "Doubt phrase", "variant": "amber" }
   ],
-  "redFlags": [
-    { "flag": "Short flag name", "detail": "Why this is a red flag in one sentence" }
+  "investorRedFlags": [
+    { "flag": "Short flag name", "detail": "Why this is a red flag for investors in one sentence" }
   ],
-  "evidence": [
-    { "phrase": "exact words from the message", "meaning": "what this specific wording reveals about intent or emotion" }
+  "weakPhrases": [
+    { "phrase": "exact words from the pitch", "meaning": "what this phrase signals to an investor — vagueness, hype, defensiveness, or missing proof" }
   ],
-  "recommendedReply": "A specific, strategic reply the user should send — written as if they are sending it",
+  "strongerRewrite": "A rewritten version of the core pitch that fixes the biggest weakness and sounds fundable — written as if the founder is saying it",
   "confidenceScore": 0
 }
 
 Rules:
-- interestScore: integer 0–100. Higher = sender is more genuinely interested or engaged.
-- powerDynamic.senderScore: integer 0–100. 100 = sender has full leverage. 50 = balanced. 0 = receiver has full leverage.
-- emotionalTone: 2–5 items. Choose the variant that best fits each tone:
-  amber = guarded/cautious/uncertain
-  blue = analytical/calculated/detached
-  emerald = positive/warm/interested
-  slate = neutral/formal/professional
-  purple = strategic/manipulative/evasive
-  red = hostile/aggressive/dismissive
-- redFlags: 0–5 items. Only flag genuine communication red flags. Return empty array if none.
-- evidence: 3–5 items. Quote exact words or short phrases from the message. For each, explain what the specific word choice reveals — e.g. hedging language, power signals, emotional leakage, deliberate ambiguity. Be precise and analytical.
-- confidenceScore: integer 0–100. Your confidence in this analysis given available context.
+- skepticismScore: integer 0–100. Higher = investors will be more skeptical. 90+ = this pitch will likely get passed. Under 30 = compelling case.
+- clarityScore: integer 0–100. Higher = pitch is clearer and more compelling. Under 40 = confusing or vague. 80+ = crisp and fundable.
+- moatRisk.riskScore: integer 0–100. 100 = zero moat, easily copied. 0 = extremely defensible.
+- customerDoubt: 2–5 tags. What specific doubts would a target customer have? Choose variant:
+  amber = feasibility concern
+  blue = trust/credibility gap
+  emerald = actually interested but cautious
+  slate = neutral, needs more info
+  purple = suspects vendor lock-in or hidden costs
+  red = strong objection or dealbreaker concern
+- investorRedFlags: 0–5 items. Only flag genuine investor-level red flags: no moat, unproven assumptions, competitive blindspots, team gaps, market sizing errors.
+- weakPhrases: 3–5 items. Quote exact words from the pitch that would make investors cringe or disengage — buzzwords, vague claims, unsupported numbers, passive hedges.
+- strongerRewrite: Make it specific, defensible, and compelling. Lead with traction or insight if possible.
+- confidenceScore: integer 0–100. Your confidence in this critique given available context.
 - Return ONLY the JSON object. No markdown, no code fences, no explanation outside the JSON.`;
 
 /* ─── Parse JSON with fallback strategies ───────────────────────── */
@@ -152,18 +158,18 @@ export async function POST(req: NextRequest) {
 
   // Validate message
   if (!message.trim()) {
-    return NextResponse.json({ error: "Message is required." }, { status: 400 });
+    return NextResponse.json({ error: "Pitch text is required." }, { status: 400 });
   }
   if (message.trim().length > 2000) {
     return NextResponse.json(
-      { error: "Message exceeds the 2000 character limit." },
+      { error: "Pitch exceeds the 2000 character limit." },
       { status: 400 }
     );
   }
 
   // Validate context and goal against allowlists
   const context = VALID_CONTEXTS.has(rawContext ?? "") ? (rawContext as string) : "general";
-  const goal = VALID_GOALS.has(rawGoal ?? "") ? (rawGoal as string) : "understand";
+  const goal = VALID_GOALS.has(rawGoal ?? "") ? (rawGoal as string) : "find_weaknesses";
 
   const apiKey = process.env.OPENROUTER_API_KEY;
   if (!apiKey) {
@@ -174,7 +180,7 @@ export async function POST(req: NextRequest) {
   const userPrompt = `Context: ${context}
 Goal: ${goal}
 
-Message to analyze:
+Pitch to stress test:
 """
 ${message.trim()}
 """`;
@@ -189,8 +195,8 @@ ${message.trim()}
       headers: {
         Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
-        "HTTP-Referer": process.env.NEXT_PUBLIC_APP_URL ?? "https://subtextai.com",
-        "X-Title": "SubtextAI",
+        "HTTP-Referer": process.env.NEXT_PUBLIC_APP_URL ?? "https://pitchcrush.ai",
+        "X-Title": "PitchCrush AI",
       },
       body: JSON.stringify({
         model: "anthropic/claude-3.7-sonnet",
@@ -271,7 +277,7 @@ ${message.trim()}
 
     console.error("Analyze route error:", err);
     return NextResponse.json(
-      { error: "Failed to analyze message. Please try again." },
+      { error: "Failed to analyze pitch. Please try again." },
       { status: 500 }
     );
   }

@@ -1,13 +1,13 @@
 "use client";
 
 import {
-  Briefcase,
-  Building2,
-  Heart,
   TrendingUp,
   Users,
-  Home,
-  Scale,
+  Swords,
+  Mic,
+  Mail,
+  BarChart3,
+  Target,
   Globe,
   Sparkles,
   RotateCcw,
@@ -25,52 +25,52 @@ interface InputPanelProps {
 }
 
 const CONTEXTS = [
-  { value: "recruiter", label: "Recruiter", Icon: Briefcase },
-  { value: "client", label: "Client", Icon: Building2 },
-  { value: "dating", label: "Dating", Icon: Heart },
-  { value: "business", label: "Business", Icon: TrendingUp },
-  { value: "friendship", label: "Friends", Icon: Users },
-  { value: "family", label: "Family", Icon: Home },
-  { value: "negotiation", label: "Negotiate", Icon: Scale },
-  { value: "general", label: "General", Icon: Globe },
+  { value: "investor",     label: "Investor",  Icon: TrendingUp },
+  { value: "customer",    label: "Customer",  Icon: Users },
+  { value: "competitor",  label: "Competitor", Icon: Swords },
+  { value: "demo_day",    label: "Demo Day",  Icon: Mic },
+  { value: "cold_email",  label: "Cold Email", Icon: Mail },
+  { value: "board",       label: "Board",     Icon: BarChart3 },
+  { value: "yc_interview",label: "YC/Accel",  Icon: Target },
+  { value: "general",     label: "General",   Icon: Globe },
 ] as const;
 
 const GOALS = [
-  { value: "understand", label: "Understand them" },
-  { value: "win_deal", label: "Win the deal" },
-  { value: "reply_smart", label: "Reply smartly" },
-  { value: "spot_manipulation", label: "Spot manipulation" },
-  { value: "improve_chances", label: "Improve my chances" },
+  { value: "find_weaknesses",   label: "Find weaknesses" },
+  { value: "strengthen_pitch",  label: "Strengthen pitch" },
+  { value: "prep_questions",    label: "Prep for questions" },
+  { value: "spot_fatal_flaws",  label: "Spot fatal flaws" },
+  { value: "improve_clarity",   label: "Improve clarity" },
 ] as const;
 
 const SAMPLES = [
   {
-    label: "Job offer",
-    context: "recruiter",
-    goal: "understand",
+    label: "SaaS one-liner",
+    context: "investor",
+    goal: "find_weaknesses",
     message:
-      "Thanks for the offer. I'll need to think it over and get back to you by end of week.",
+      "We build AI-powered project management software for remote teams that increases productivity by 40%.",
   },
   {
-    label: "Client stalling",
-    context: "client",
-    goal: "win_deal",
+    label: "Cold email pitch",
+    context: "cold_email",
+    goal: "improve_clarity",
     message:
-      "We'll need to reassess budget timing before we can commit to the full scope of your proposal.",
+      "Hi, I wanted to reach out about our platform that helps companies save time and money on their operations using cutting-edge AI technology.",
   },
   {
-    label: "After a date",
-    context: "dating",
-    goal: "understand",
+    label: "Investor deck summary",
+    context: "investor",
+    goal: "spot_fatal_flaws",
     message:
-      "Hey! Had a really great time last night. We should definitely hang out again sometime 😊",
+      "We're disrupting the $50B logistics market with our proprietary algorithm. We have 10 beta users and are growing fast. Looking for $2M seed round.",
   },
   {
-    label: "Partnership",
-    context: "business",
-    goal: "spot_manipulation",
+    label: "YC application",
+    context: "yc_interview",
+    goal: "prep_questions",
     message:
-      "We really love what you've built! We'd love to potentially explore some kind of collaboration in the future.",
+      "We make it easy for small businesses to accept payments online. Our solution is simpler than Stripe and we already have 50 paying customers.",
   },
 ] as const;
 
@@ -93,17 +93,17 @@ export function InputPanel({
       {/* Panel header */}
       <div>
         <h1 className="text-[15px] font-semibold text-white tracking-tight">
-          Analyze a message
+          Stress test your pitch
         </h1>
         <p className="text-[12px] text-neutral-600 mt-1 leading-relaxed">
-          Paste any text to decode its true meaning and intent.
+          Paste any pitch — one-liner, cold email, or deck summary.
         </p>
       </div>
 
       {/* Context selector */}
       <div>
         <p className="text-[11px] text-neutral-600 uppercase tracking-[0.14em] font-medium mb-3">
-          Context
+          Simulate audience
         </p>
         <div className="grid grid-cols-4 gap-1.5">
           {CONTEXTS.map(({ value, label, Icon }) => (
@@ -138,7 +138,7 @@ export function InputPanel({
             id="goal-select"
             value={goal}
             onChange={(e) => onGoalChange(e.target.value)}
-            className="w-full h-10 pl-3.5 pr-9 rounded-xl bg-[#111111] border border-[#1a1a1a] text-[13px] text-neutral-300 appearance-none cursor-pointer focus:outline-none focus:border-emerald-500/35 hover:border-[#252525] transition-colors duration-150"
+            className="w-full h-10 pl-3.5 pr-9 rounded-xl bg-[#111111] border border-[#1a1a1a] text-[13px] text-neutral-300 appearance-none cursor-pointer focus:outline-none focus:border-red-500/35 hover:border-[#252525] transition-colors duration-150"
           >
             {GOALS.map(({ value, label }) => (
               <option key={value} value={value} className="bg-[#111111] text-neutral-300">
@@ -169,14 +169,14 @@ export function InputPanel({
           htmlFor="message-textarea"
           className="block text-[11px] text-neutral-600 uppercase tracking-[0.14em] font-medium mb-3"
         >
-          Message
+          Pitch text
         </label>
         <div className="relative">
           <textarea
             id="message-textarea"
             value={message}
             onChange={(e) => onMessageChange(e.target.value.slice(0, MAX_CHARS))}
-            placeholder="Paste any message here — email, DM, job offer, client note, text..."
+            placeholder="Paste your pitch — one-liner, cold email, investor memo, or sales deck summary..."
             rows={7}
             className="w-full bg-[#111111] border border-[#1a1a1a] rounded-xl px-4 py-3.5 text-[13px] text-neutral-300 placeholder-neutral-700 resize-none focus:outline-none focus:border-emerald-500/35 hover:border-[#252525] transition-colors duration-150 leading-relaxed"
           />
@@ -234,10 +234,10 @@ export function InputPanel({
       <button
         onClick={onAnalyze}
         disabled={!canAnalyze}
-        aria-label={isLoading ? "Analyzing message…" : "Analyze message"}
+        aria-label={isLoading ? "Analyzing pitch…" : "Analyze pitch"}
         className={`relative h-11 w-full rounded-xl font-semibold text-[13px] flex items-center justify-center gap-2 select-none transition-all duration-200 ${
           canAnalyze
-            ? "bg-emerald-500 text-black hover:bg-emerald-400 active:scale-[0.98]"
+            ? "bg-red-500 text-white hover:bg-red-400 active:scale-[0.98]"
             : "bg-[#111111] border border-[#1a1a1a] text-neutral-700 cursor-not-allowed"
         }`}
       >
@@ -268,7 +268,7 @@ export function InputPanel({
         ) : (
           <>
             <Sparkles className="w-4 h-4 shrink-0" aria-hidden="true" />
-            Analyze Message
+            Crush My Pitch
           </>
         )}
       </button>

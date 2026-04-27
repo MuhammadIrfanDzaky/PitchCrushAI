@@ -4,17 +4,17 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 const MESSAGES = [
-  "Reading emotional signals...",
-  "Checking power dynamics...",
-  "Detecting hidden intent...",
-  "Crafting smart response...",
+  "Scanning investor objections...",
+  "Assessing competitive moat...",
+  "Finding critical weaknesses...",
+  "Crafting stronger rewrite...",
 ];
 
 const STEPS = [
-  { label: "Emotional signals", pct: 22 },
-  { label: "Power dynamics", pct: 47 },
-  { label: "Hidden intent", pct: 73 },
-  { label: "Smart response", pct: 91 },
+  { label: "Investor signals", pct: 22 },
+  { label: "Moat analysis",    pct: 47 },
+  { label: "Weak points",      pct: 73 },
+  { label: "Rewrite",          pct: 91 },
 ];
 
 /* ─── Full-panel loader (first analysis) ───────────────────────── */

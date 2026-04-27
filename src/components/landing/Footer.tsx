@@ -13,13 +13,13 @@ export function Footer() {
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
         {/* Brand */}
         <div>
-          <Link href="/" className="select-none" aria-label="SubtextAI home">
+          <Link href="/" className="select-none" aria-label="PitchCrush AI home">
             <span className="font-semibold text-white text-base tracking-tight">
-              Subtext<span className="text-emerald-400">AI</span>
+              PitchCrush<span className="text-red-400">AI</span>
             </span>
           </Link>
           <p className="text-[11px] text-neutral-700 mt-1">
-            Decode what people really mean.
+            Stress test your startup before investors do.
           </p>
         </div>
 
@@ -38,7 +38,7 @@ export function Footer() {
 
         {/* Copyright */}
         <p className="text-[11px] text-neutral-700">
-          © {new Date().getFullYear()} SubtextAI. All rights reserved.
+          © {new Date().getFullYear()} PitchCrush AI. All rights reserved.
         </p>
       </div>
     </footer>

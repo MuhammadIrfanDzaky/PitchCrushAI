@@ -9,8 +9,8 @@ import type { AnalysisResult } from "@/lib/types/analysis";
 
 export function AnalyzePage() {
   const [message, setMessage] = useState("");
-  const [context, setContext] = useState("recruiter");
-  const [goal, setGoal] = useState("understand");
+  const [context, setContext] = useState("investor");
+  const [goal, setGoal] = useState("find_weaknesses");
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -67,20 +67,20 @@ export function AnalyzePage() {
         <Link
           href="/"
           className="flex items-center gap-2 select-none"
-          aria-label="SubtextAI home"
+          aria-label="PitchCrush AI home"
         >
           <div className="flex flex-col gap-0.75" aria-hidden="true">
-            <span className="block w-4 h-px bg-emerald-400" />
-            <span className="block w-2.5 h-px bg-emerald-400/50" />
+            <span className="block w-4 h-px bg-red-400" />
+            <span className="block w-2.5 h-px bg-red-400/50" />
           </div>
           <span className="font-semibold text-white text-[15px] tracking-tight leading-none">
-            Subtext<span className="text-emerald-400">AI</span>
+            PitchCrush<span className="text-red-400">AI</span>
           </span>
         </Link>
 
         <div className="flex items-center gap-3">
           <span className="hidden sm:flex items-center gap-1.5 text-[11px] text-neutral-600 select-none">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
             AI ready
           </span>
           <button

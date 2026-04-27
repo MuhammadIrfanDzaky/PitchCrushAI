@@ -5,9 +5,9 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 const PROOF = [
-  { value: "50K+", label: "Analyses run" },
-  { value: "94%", label: "Avg. confidence" },
-  { value: "< 3s", label: "Per decode" },
+  { value: "10K+", label: "Pitches crushed" },
+  { value: "9",    label: "Signal layers" },
+  { value: "< 5s", label: "Per analysis" },
 ] as const;
 
 export function CTA() {
@@ -24,12 +24,12 @@ export function CTA() {
           {/* Top glow line */}
           <div
             aria-hidden="true"
-            className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-px bg-linear-to-r from-transparent via-emerald-500/40 to-transparent"
+            className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-px bg-linear-to-r from-transparent via-red-500/40 to-transparent"
           />
           {/* Background glow */}
           <div
             aria-hidden="true"
-            className="absolute -top-40 left-1/2 -translate-x-1/2 w-96 h-96 rounded-full bg-emerald-500/6 blur-[100px]"
+            className="absolute -top-40 left-1/2 -translate-x-1/2 w-96 h-96 rounded-full bg-red-500/6 blur-[100px]"
           />
 
           <div className="relative px-8 sm:px-16 py-16 sm:py-20 text-center">
@@ -39,26 +39,26 @@ export function CTA() {
             </p>
 
             <h2 className="text-[40px] sm:text-[56px] font-semibold text-white tracking-tighter leading-[1.04] mb-5">
-              Most people reply to
+              Most pitches fail
               <br />
-              what was{" "}
-              <span className="text-neutral-500 italic">said.</span>
+              before the{" "}
+              <span className="text-neutral-500 italic">meeting.</span>
               <br />
-              Not what was{" "}
-              <span className="bg-linear-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
-                meant.
+              Yours won&apos;t after{" "}
+              <span className="bg-linear-to-r from-red-400 to-orange-400 bg-clip-text text-transparent">
+                this.
               </span>
             </h2>
 
             <p className="text-neutral-600 text-base mb-10 max-w-sm mx-auto leading-relaxed">
-              Join thousands who read between the lines before they reply.
+              Join founders who stress-test before they pitch.
             </p>
 
             <Link
               href="/analyze"
-              className="group inline-flex items-center gap-2 h-12 px-8 rounded-full bg-emerald-500 text-black text-sm font-semibold hover:bg-emerald-400 active:scale-[0.98] transition-all duration-150 select-none"
+              className="group inline-flex items-center gap-2 h-12 px-8 rounded-full bg-red-500 text-white text-sm font-semibold hover:bg-red-400 active:scale-[0.98] transition-all duration-150 select-none"
             >
-              Decode Your First Message
+              Crush My Pitch
               <ArrowRight
                 className="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-150"
                 aria-hidden="true"

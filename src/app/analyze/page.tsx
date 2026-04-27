@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { AnalyzePage } from "@/components/analyze/AnalyzePage";
 
 export const metadata: Metadata = {
-  title: "Analyze — SubtextAI",
+  title: "Pitch Crusher — PitchCrush AI",
   description:
-    "Decode any message. Reveal hidden intent, emotional signals, and the smartest next reply.",
+    "Stress test your startup pitch. Reveal investor objections, weak phrases, moat risks, and get a stronger rewrite in seconds.",
 };
 
 export default function Page() {

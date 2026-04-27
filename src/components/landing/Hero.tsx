@@ -5,16 +5,16 @@ import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 
 const STATS = [
-  { value: "50K+", label: "Messages decoded" },
-  { value: "< 3s", label: "Per analysis" },
-  { value: "8", label: "Signal layers" },
+  { value: "10K+",  label: "Pitches crushed" },
+  { value: "< 5s",  label: "Per analysis" },
+  { value: "9",     label: "Signal layers" },
 ] as const;
 
 const ANALYSIS_ROWS = [
-  { label: "Hidden Intent", value: "Negotiating leverage", color: "text-amber-400" },
-  { label: "Emotional Tone", value: "Guarded, slightly anxious", color: "text-blue-400" },
-  { label: "Power Dynamic", value: "Caller holds advantage", color: "text-purple-400" },
-  { label: "Red Flags", value: "Timeline deflection", color: "text-red-400" },
+  { label: "Biggest Weakness",    value: "No proof of traction",   color: "text-amber-400" },
+  { label: "Moat Risk",           value: "Easily replicated",      color: "text-purple-400" },
+  { label: "Customer Doubt",      value: "Why now? Why you?",      color: "text-blue-400" },
+  { label: "Investor Red Flags",  value: "2 detected",             color: "text-red-400" },
 ] as const;
 
 function AppMockup() {
@@ -26,21 +26,21 @@ function AppMockup() {
         <span className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
         <span className="w-3 h-3 rounded-full bg-[#28c840]" />
         <span className="flex-1 text-center text-[11px] text-neutral-700 font-medium select-none">
-          subtextai.com/analyze
+          pitchcrush.ai/analyze
         </span>
         <span className="flex items-center gap-1.5">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-          <span className="text-[10px] text-emerald-600 font-medium">Analyzing</span>
+          <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+          <span className="text-[10px] text-red-500 font-medium">Crushing</span>
         </span>
       </div>
 
       {/* Message input area */}
       <div className="px-5 pt-5 pb-4 border-b border-[#181818]">
         <p className="text-[10px] text-neutral-600 font-mono uppercase tracking-widest mb-3">
-          Message
+          Pitch
         </p>
         <p className="text-sm text-neutral-300 leading-relaxed">
-          &ldquo;Thanks for the offer. I&apos;ll need to think it over and get back to you by end of week.&rdquo;
+          &ldquo;We&apos;re building the Stripe for B2B payments in Southeast Asia. We have 3 pilot customers and are raising $1.5M seed.&rdquo;
         </p>
       </div>
 
@@ -52,18 +52,18 @@ function AppMockup() {
 
         {/* Interest score with bar */}
         <div className="flex items-center justify-between gap-4 py-1.5">
-          <span className="text-[12px] text-neutral-500 shrink-0 w-28">Interest Score</span>
+          <span className="text-[12px] text-neutral-500 shrink-0 w-28">Skepticism Score</span>
           <div className="flex-1 flex items-center gap-3">
             <div className="flex-1 h-1 bg-[#1e1e1e] rounded-full overflow-hidden">
               <motion.div
-                className="h-full bg-emerald-500 rounded-full"
+                className="h-full bg-red-500 rounded-full"
                 initial={{ width: 0 }}
-                animate={{ width: "73%" }}
+                animate={{ width: "78%" }}
                 transition={{ duration: 1.2, delay: 0.8, ease: "easeOut" }}
               />
             </div>
-            <span className="text-[12px] font-semibold text-emerald-400 w-12 text-right">
-              73 / 100
+            <span className="text-[12px] font-semibold text-red-400 w-12 text-right">
+              78 / 100
             </span>
           </div>
         </div>
@@ -76,19 +76,19 @@ function AppMockup() {
         ))}
       </div>
 
-      {/* Recommended reply */}
+      {/* Stronger rewrite */}
       <div className="p-5">
         <div className="rounded-xl bg-emerald-500/8 border border-emerald-500/15 p-4">
           <div className="flex items-center justify-between mb-3">
             <p className="text-[10px] text-emerald-500 font-semibold uppercase tracking-widest">
-              Recommended Reply
+              Stronger Rewrite
             </p>
             <span className="text-[10px] text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full font-medium border border-emerald-500/20">
-              94% confidence
+              82% clarity
             </span>
           </div>
           <p className="text-sm text-neutral-300 leading-relaxed">
-            &ldquo;I appreciate the offer. I&apos;d like 48 hours to review the full terms before committing.&rdquo;
+            &ldquo;We&apos;re the first B2B payments infrastructure built for Southeast Asia&apos;s fragmented banking system. 3 enterprise pilots, $180K ARR, raising $1.5M to expand to Indonesia and Vietnam.&rdquo;
           </p>
         </div>
       </div>
@@ -139,8 +139,8 @@ export function Hero() {
             {/* Badge */}
             <motion.div variants={itemVariants}>
               <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#111111] border border-[#1e1e1e] text-[11px] text-neutral-500 tracking-wide select-none">
-                <Sparkles className="w-3 h-3 text-emerald-400" aria-hidden="true" />
-                AI Communication Intelligence
+                <Sparkles className="w-3 h-3 text-red-400" aria-hidden="true" />
+                AI Pitch Intelligence
               </span>
             </motion.div>
 
@@ -149,13 +149,13 @@ export function Hero() {
               variants={itemVariants}
               className="text-[52px] sm:text-6xl lg:text-[64px] font-semibold tracking-tighter text-white leading-[1.03]"
             >
-              Decode what
+              Stress test your
               <br />
-              people{" "}
-              <span className="bg-linear-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent italic">
-                really
+              pitch{" "}
+              <span className="bg-linear-to-r from-red-400 via-orange-300 to-amber-400 bg-clip-text text-transparent italic">
+                before
               </span>{" "}
-              mean.
+              investors do.
             </motion.h1>
 
             {/* Subheadline */}
@@ -163,8 +163,8 @@ export function Hero() {
               variants={itemVariants}
               className="text-[17px] text-neutral-500 leading-relaxed max-w-md"
             >
-              Paste any message. Reveal hidden intent, emotional signals, and the
-              smartest next reply — in seconds.
+              Paste your pitch. Get brutally honest feedback simulating how VCs,
+              customers, and competitors will tear it apart &mdash; in seconds.
             </motion.p>
 
             {/* CTAs */}
@@ -174,9 +174,9 @@ export function Hero() {
             >
               <Link
                 href="/analyze"
-                className="group inline-flex items-center gap-2 h-11 px-6 rounded-full bg-emerald-500 text-black text-sm font-semibold hover:bg-emerald-400 active:scale-[0.98] transition-all duration-150 select-none"
+                className="group inline-flex items-center gap-2 h-11 px-6 rounded-full bg-red-500 text-white text-sm font-semibold hover:bg-red-400 active:scale-[0.98] transition-all duration-150 select-none"
               >
-                Try Free Decoder
+                Crush My Pitch
                 <ArrowRight
                   className="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-150"
                   aria-hidden="true"

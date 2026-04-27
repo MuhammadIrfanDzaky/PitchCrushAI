@@ -1,41 +1,42 @@
-export type ToneVariant = "amber" | "blue" | "emerald" | "slate" | "purple" | "red";
+export type DoubtVariant = "amber" | "blue" | "emerald" | "slate" | "purple" | "red";
 
-export interface PowerDynamic {
+export interface MoatRisk {
   label: string;
-  /** 0–100: 100 = sender has full control, 50 = balanced */
-  senderScore: number;
+  /** 0–100: 100 = extreme moat risk, 0 = strong defensible moat */
+  riskScore: number;
   description: string;
 }
 
-export interface ToneTag {
+export interface DoubtTag {
   label: string;
-  variant: ToneVariant;
+  variant: DoubtVariant;
 }
 
-export interface RedFlag {
+export interface InvestorRedFlag {
   flag: string;
   detail: string;
 }
 
-export interface EvidenceSignal {
-  /** Exact phrase or word(s) quoted from the original message */
+export interface WeakPhrase {
+  /** Exact phrase quoted from the original pitch */
   phrase: string;
-  /** What that phrase reveals about intent, emotion, or strategy */
+  /** What that phrase signals to investors or customers */
   meaning: string;
 }
 
 export interface AnalysisResult {
-  surfaceMeaning: string;
-  hiddenIntent: string;
-  /** 0–100 */
-  interestScore: number;
-  powerDynamic: PowerDynamic;
-  emotionalTone: ToneTag[];
-  redFlags: RedFlag[];
-  /** 3–5 linguistic evidence signals extracted from the message */
-  evidence: EvidenceSignal[];
-  recommendedReply: string;
-  /** 0–100 */
+  likelyInvestorQuestion: string;
+  biggestWeakness: string;
+  /** 0–100: how skeptical investors will be */
+  skepticismScore: number;
+  /** 0–100: how clear and compelling the pitch is */
+  clarityScore: number;
+  moatRisk: MoatRisk;
+  customerDoubt: DoubtTag[];
+  investorRedFlags: InvestorRedFlag[];
+  weakPhrases: WeakPhrase[];
+  strongerRewrite: string;
+  /** 0–100: AI confidence in this assessment */
   confidenceScore: number;
 }
 
@@ -47,6 +48,10 @@ export interface AnalyzeRequest {
 
 export interface AnalyzeResponse {
   result: AnalysisResult;
+}
+
+export interface AnalyzeErrorResponse {
+  error: string;
 }
 
 export interface AnalyzeErrorResponse {

@@ -5,41 +5,41 @@ import { motion } from "framer-motion";
 const TESTIMONIALS = [
   {
     quote:
-      "I decoded 'We'll circle back next quarter' from an investor. SubtextAI flagged it as a polite no — 8% intent, high deflection pattern. I stopped waiting and found my lead the same day.",
-    name: "Priya M.",
-    role: "Founder, B2B SaaS",
-    tag: "Founders",
-    score: "8% intent",
+      "I ran my Series A pitch through PitchCrush before the meeting. Skepticism score was 82. It surfaced three investor questions I had no answer for. I prep'd overnight and closed the round two weeks later.",
+    name: "Alex K.",
+    role: "Founder, FinTech startup",
+    tag: "Series A",
+    score: "82 skepticism",
     scoreColor: "text-red-400",
     scoreBg: "bg-red-500/8 border-red-500/15",
   },
   {
     quote:
-      "Recruiter said 'We really loved your profile and will be in touch.' Ran it through SubtextAI. It caught low urgency, template phrasing, and no timeline commitment. I followed up the same day and got the interview.",
-    name: "James T.",
-    role: "Senior Engineer, job seeker",
-    tag: "Job Seekers",
-    score: "31% urgency",
+      "Our YC application said \u2018we\u2019re building the future of X.\u2019 PitchCrush flagged it as a weak phrase with no proof of traction. We rewrote it with concrete metrics. We got an interview.",
+    name: "Mei L.",
+    role: "Co-founder, Climate Tech",
+    tag: "YC W25",
+    score: "3 weak phrases",
     scoreColor: "text-amber-400",
     scoreBg: "bg-amber-500/8 border-amber-500/15",
   },
   {
     quote:
-      "My client replied 'Sounds great, just a few tweaks.' Five red flags: vague scope, no deadline, evasive tone. I sent a scope-lock email before they could expand the project. Saved me a week.",
-    name: "Sofia R.",
-    role: "Freelance Product Designer",
-    tag: "Freelancers",
-    score: "5 red flags",
-    scoreColor: "text-orange-400",
-    scoreBg: "bg-orange-500/8 border-orange-500/15",
+      "PitchCrush told me my moat was \u2018easily replicated.\u2019 Brutal to hear, but it made me rethink my defensibility story entirely. The investor who passed the first time funded us six months later.",
+    name: "Omar S.",
+    role: "CEO, B2B SaaS",
+    tag: "Seed Round",
+    score: "High moat risk",
+    scoreColor: "text-purple-400",
+    scoreBg: "bg-purple-500/8 border-purple-500/15",
   },
 ] as const;
 
 const OTHER_USERS = [
-  "Salespeople",
-  "Negotiators",
-  "Dating & Relationships",
-  "Professionals",
+  "Accelerator Applicants",
+  "Angel Seekers",
+  "Enterprise Sales",
+  "Demo Day Speakers",
 ] as const;
 
 export function UseCases() {
@@ -60,9 +60,9 @@ export function UseCases() {
           </p>
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
             <h2 className="text-4xl md:text-[56px] font-semibold text-white tracking-tighter leading-[1.03]">
-              Real signals.
+              Pitches that
               <br />
-              Real decisions.
+              survived the test.
             </h2>
             <div className="flex flex-wrap gap-2 pb-1">
               {OTHER_USERS.map((u) => (
