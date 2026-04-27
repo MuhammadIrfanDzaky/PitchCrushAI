@@ -43,6 +43,10 @@ const AnalysisResultSchema = z.object({
   redFlags: z
     .array(z.object({ flag: z.string().min(1), detail: z.string() }))
     .max(5),
+  evidence: z
+    .array(z.object({ phrase: z.string().min(1), meaning: z.string().min(1) }))
+    .min(1)
+    .max(5),
   recommendedReply: z.string().min(1),
   confidenceScore: z.number().int().min(0).max(100),
 });
@@ -70,6 +74,9 @@ Analyze the message deeply and return ONLY valid JSON with this exact structure:
   "redFlags": [
     { "flag": "Short flag name", "detail": "Why this is a red flag in one sentence" }
   ],
+  "evidence": [
+    { "phrase": "exact words from the message", "meaning": "what this specific wording reveals about intent or emotion" }
+  ],
   "recommendedReply": "A specific, strategic reply the user should send — written as if they are sending it",
   "confidenceScore": 0
 }
@@ -85,6 +92,7 @@ Rules:
   purple = strategic/manipulative/evasive
   red = hostile/aggressive/dismissive
 - redFlags: 0–5 items. Only flag genuine communication red flags. Return empty array if none.
+- evidence: 3–5 items. Quote exact words or short phrases from the message. For each, explain what the specific word choice reveals — e.g. hedging language, power signals, emotional leakage, deliberate ambiguity. Be precise and analytical.
 - confidenceScore: integer 0–100. Your confidence in this analysis given available context.
 - Return ONLY the JSON object. No markdown, no code fences, no explanation outside the JSON.`;
 

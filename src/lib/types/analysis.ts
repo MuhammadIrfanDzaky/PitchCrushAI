@@ -17,6 +17,13 @@ export interface RedFlag {
   detail: string;
 }
 
+export interface EvidenceSignal {
+  /** Exact phrase or word(s) quoted from the original message */
+  phrase: string;
+  /** What that phrase reveals about intent, emotion, or strategy */
+  meaning: string;
+}
+
 export interface AnalysisResult {
   surfaceMeaning: string;
   hiddenIntent: string;
@@ -25,6 +32,8 @@ export interface AnalysisResult {
   powerDynamic: PowerDynamic;
   emotionalTone: ToneTag[];
   redFlags: RedFlag[];
+  /** 3–5 linguistic evidence signals extracted from the message */
+  evidence: EvidenceSignal[];
   recommendedReply: string;
   /** 0–100 */
   confidenceScore: number;

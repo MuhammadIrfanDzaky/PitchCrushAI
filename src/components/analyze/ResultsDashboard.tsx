@@ -13,6 +13,7 @@ import {
   Check,
   Activity,
   Sparkles,
+  Quote,
 } from "lucide-react";
 import { AnalyzingLoader, ReanalyzingOverlay } from "./AnalyzingLoader";
 import type { AnalysisResult } from "@/lib/types/analysis";
@@ -405,6 +406,49 @@ export function ResultsDashboard({ isLoading, isReanalyzing, result, error }: Re
             </div>
           )}
         </Card>
+
+        {/* ── Evidence Signals ── */}
+        {result.evidence && result.evidence.length > 0 && (
+          <Card className="sm:col-span-2" delay={0.33}>
+            <CardHeader
+              icon={<Quote className="w-3.5 h-3.5 text-cyan-400" />}
+              iconColor="bg-cyan-500/10"
+              label="Evidence Signals"
+              badge={
+                <span className="text-[11px] text-cyan-400 bg-cyan-500/8 border border-cyan-500/20 px-2.5 py-1 rounded-full font-medium">
+                  {result.evidence.length} phrases
+                </span>
+              }
+            />
+            <div className="space-y-2.5">
+              {result.evidence.map(({ phrase, meaning }, i) => (
+                <motion.div
+                  key={`${phrase}-${i}`}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.32, delay: 0.52 + i * 0.06, ease: "easeOut" }}
+                  className="group relative overflow-hidden rounded-xl bg-[#0A0A0A] border border-[#141414] hover:border-cyan-500/15 transition-colors duration-200"
+                >
+                  {/* Left accent bar */}
+                  <div
+                    className="absolute left-0 top-0 bottom-0 w-0.5 bg-linear-to-b from-cyan-500/40 to-cyan-500/0"
+                    aria-hidden="true"
+                  />
+                  <div className="pl-4 pr-3 py-3">
+                    {/* Quoted phrase */}
+                    <p className="text-[12px] font-semibold text-white mb-1.5 leading-snug font-mono tracking-tight">
+                      &ldquo;{phrase}&rdquo;
+                    </p>
+                    {/* Meaning */}
+                    <p className="text-[11px] text-neutral-500 leading-relaxed">
+                      {meaning}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </Card>
+        )}
 
         {/* ── Recommended Reply ── */}
         <Card className="sm:col-span-2 hover:border-emerald-500/20" delay={0.36}>
