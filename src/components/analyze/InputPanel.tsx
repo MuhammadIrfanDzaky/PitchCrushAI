@@ -8,6 +8,7 @@ import {
   Users,
   Home,
   Scale,
+  Globe,
   Sparkles,
   RotateCcw,
 } from "lucide-react";
@@ -28,9 +29,10 @@ const CONTEXTS = [
   { value: "client", label: "Client", Icon: Building2 },
   { value: "dating", label: "Dating", Icon: Heart },
   { value: "business", label: "Business", Icon: TrendingUp },
-  { value: "friendship", label: "Friendship", Icon: Users },
+  { value: "friendship", label: "Friends", Icon: Users },
   { value: "family", label: "Family", Icon: Home },
-  { value: "negotiation", label: "Negotiation", Icon: Scale },
+  { value: "negotiation", label: "Negotiate", Icon: Scale },
+  { value: "general", label: "General", Icon: Globe },
 ] as const;
 
 const GOALS = [

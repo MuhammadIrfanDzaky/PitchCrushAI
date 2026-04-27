@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import Link from "next/link";
 import { Plus } from "lucide-react";
 import { InputPanel } from "./InputPanel";
@@ -16,6 +16,15 @@ export function AnalyzePage() {
   const [error, setError] = useState<string | null>(null);
   // Track whether we're re-analyzing on top of an existing result
   const isReanalyzing = isLoading && result !== null;
+  // Ref to the results column — used for mobile auto-scroll
+  const resultsRef = useRef<HTMLElement>(null);
+
+  const scrollToResults = useCallback(() => {
+    // Only auto-scroll on mobile (below lg breakpoint)
+    if (window.innerWidth < 1024 && resultsRef.current) {
+      resultsRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, []);
 
   async function handleAnalyze() {
     if (!message.trim() || isLoading) return;
@@ -34,6 +43,7 @@ export function AnalyzePage() {
         // Leave previous result visible on error
       } else {
         setResult(data.result);
+        scrollToResults();
       }
     } catch {
       setError("Network error. Please check your connection and try again.");
@@ -101,7 +111,7 @@ export function AnalyzePage() {
         </aside>
 
         {/* Right: Results */}
-        <main className="flex-1 lg:overflow-y-auto">
+        <main ref={resultsRef} className="flex-1 lg:overflow-y-auto">
           <ResultsDashboard
             isLoading={isLoading}
             isReanalyzing={isReanalyzing}

@@ -33,7 +33,7 @@ export function Navbar() {
           aria-label="SubtextAI home"
         >
           {/* Logo mark: two stacked lines = "subtext" */}
-          <div className="flex flex-col gap-[3px] py-0.5" aria-hidden="true">
+          <div className="flex flex-col gap-0.75 py-0.5" aria-hidden="true">
             <span className="block w-4 h-px bg-emerald-400" />
             <span className="block w-2.5 h-px bg-emerald-400/50" />
           </div>
@@ -68,7 +68,7 @@ export function Navbar() {
             href="/analyze"
             className="hidden md:inline-flex text-[13px] text-neutral-500 hover:text-neutral-200 transition-colors duration-150 select-none"
           >
-            Sign in
+            Open App
           </Link>
           <Link
             href="/analyze"

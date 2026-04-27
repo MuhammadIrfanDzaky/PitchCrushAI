@@ -213,7 +213,7 @@ export function Hero() {
             initial={{ opacity: 0, x: 32, scale: 0.97 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.25, ease: "easeOut" }}
-            className="relative lg:block"
+            className="relative hidden lg:block"
           >
             {/* Card glow border */}
             <div
@@ -226,60 +226,6 @@ export function Hero() {
         </div>
       </div>
     </section>
-  );
-}
-
-
-const PREVIEW_ROWS = [
-  { label: "Hidden Intent", value: "Negotiating leverage", color: "text-amber-400" },
-  { label: "Emotional Tone", value: "Guarded, slightly anxious", color: "text-blue-400" },
-  { label: "Interest Score", value: "73 / 100", color: "text-emerald-400" },
-  { label: "Power Dynamic", value: "Caller holds advantage", color: "text-purple-400" },
-] as const;
-
-function AnalysisPreviewCard() {
-  return (
-    <div className="w-full rounded-2xl bg-[#111111] border border-[#222222] overflow-hidden shadow-2xl shadow-black/60">
-      {/* Header bar */}
-      <div className="flex items-center gap-2 px-5 py-3.5 border-b border-[#1a1a1a]">
-        <span className="w-2.5 h-2.5 rounded-full bg-[#2a2a2a]" />
-        <span className="w-2.5 h-2.5 rounded-full bg-[#2a2a2a]" />
-        <span className="w-2.5 h-2.5 rounded-full bg-[#2a2a2a]" />
-        <span className="ml-3 text-[11px] text-neutral-600 font-mono">
-          subtextai — analysis.json
-        </span>
-      </div>
-
-      {/* Input snippet */}
-      <div className="px-5 py-4 border-b border-[#1a1a1a]">
-        <p className="text-[11px] text-neutral-600 mb-1.5 font-mono uppercase tracking-wider">
-          Input message
-        </p>
-        <p className="text-xs text-neutral-400 leading-relaxed italic">
-          "Thanks for the offer. I'll need to think it over and get back to you by end of week."
-        </p>
-      </div>
-
-      {/* Analysis rows */}
-      <div className="px-5 py-4 space-y-2.5">
-        {PREVIEW_ROWS.map(({ label, value, color }) => (
-          <div key={label} className="flex items-center justify-between">
-            <span className="text-[11px] text-neutral-600">{label}</span>
-            <span className={`text-[11px] font-medium ${color}`}>{value}</span>
-          </div>
-        ))}
-      </div>
-
-      {/* Recommended reply */}
-      <div className="mx-5 mb-5 rounded-xl bg-emerald-500/8 border border-emerald-500/20 p-3.5">
-        <p className="text-[10px] text-emerald-500 font-semibold uppercase tracking-wider mb-1.5">
-          Recommended Reply
-        </p>
-        <p className="text-xs text-neutral-300 leading-relaxed">
-          "I appreciate the offer. I'd like 48 hours to review the full terms before committing."
-        </p>
-      </div>
-    </div>
   );
 }
 

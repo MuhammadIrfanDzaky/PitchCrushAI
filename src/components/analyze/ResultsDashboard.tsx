@@ -124,9 +124,20 @@ function CardHeader({
 
 /* ─── Idle / empty state ─────────────────────────────────────────── */
 
+const SIGNAL_PREVIEW = [
+  { label: "Hidden Intent", color: "text-amber-400", bg: "bg-amber-500/8", border: "border-amber-500/15" },
+  { label: "Interest Score", color: "text-emerald-400", bg: "bg-emerald-500/8", border: "border-emerald-500/15" },
+  { label: "Power Dynamic", color: "text-purple-400", bg: "bg-purple-500/8", border: "border-purple-500/15" },
+  { label: "Emotional Tone", color: "text-blue-400", bg: "bg-blue-500/8", border: "border-blue-500/15" },
+  { label: "Red Flags", color: "text-red-400", bg: "bg-red-500/8", border: "border-red-500/15" },
+  { label: "Evidence Signals", color: "text-cyan-400", bg: "bg-cyan-500/8", border: "border-cyan-500/15" },
+  { label: "Recommended Reply", color: "text-emerald-400", bg: "bg-emerald-500/8", border: "border-emerald-500/15" },
+  { label: "Confidence Score", color: "text-neutral-400", bg: "bg-neutral-500/8", border: "border-neutral-500/15" },
+] as const;
+
 function IdleState() {
   return (
-    <div className="flex flex-col items-center justify-center h-full min-h-90 gap-6 p-8 select-none">
+    <div className="flex flex-col items-center justify-center h-full min-h-90 gap-7 p-8 select-none">
       <div
         className="w-12 h-12 rounded-2xl bg-emerald-500/8 border border-emerald-500/15 flex items-center justify-center"
         aria-hidden="true"
@@ -138,8 +149,20 @@ function IdleState() {
           Ready to decode
         </p>
         <p className="text-[12px] text-neutral-600 mt-1.5 leading-relaxed max-w-64">
-          Paste any message in the panel and hit Analyze to reveal what&apos;s really going on.
+          Paste any message and hit Analyze — we&apos;ll reveal every layer of intent.
         </p>
+      </div>
+      {/* Signal preview chips */}
+      <div className="flex flex-wrap justify-center gap-2 max-w-xs">
+        {SIGNAL_PREVIEW.map(({ label, color, bg, border }) => (
+          <span
+            key={label}
+            className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-medium border ${color} ${bg} ${border} opacity-50`}
+          >
+            <span className="w-1 h-1 rounded-full bg-current" aria-hidden="true" />
+            {label}
+          </span>
+        ))}
       </div>
     </div>
   );
@@ -219,7 +242,7 @@ export function ResultsDashboard({ isLoading, isReanalyzing, result, error }: Re
           <h2 className="text-[15px] font-semibold text-white tracking-tight">
             Analysis Results
           </h2>
-          <p className="text-[12px] text-neutral-600 mt-0.5">8 signal layers decoded</p>
+          <p className="text-[12px] text-neutral-600 mt-0.5">9 signal layers decoded</p>
         </div>
         <span className="text-[10px] text-emerald-600 bg-emerald-500/8 border border-emerald-500/15 px-2.5 py-1 rounded-full font-mono select-none">
           live · AI
