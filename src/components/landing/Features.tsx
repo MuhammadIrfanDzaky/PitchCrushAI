@@ -15,16 +15,16 @@ import {
 
 function FeaturedCell() {
   return (
-    <div className="lg:col-span-2 lg:row-span-2 p-7 bg-[#0d0d0d] rounded-2xl border border-[#1a1a1a] hover:border-red-500/20 transition-all duration-300 group flex flex-col gap-6">
+    <div className="lg:col-span-2 lg:row-span-2 p-7 bg-white rounded-2xl border border-[#E7E0D6] hover:border-red-300 transition-all duration-300 group flex flex-col gap-6">
       {/* Header */}
       <div>
-        <div className="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/15 flex items-center justify-center mb-5">
+        <div className="w-9 h-9 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center mb-5">
           <MessageSquare className="w-4 h-4 text-emerald-400" aria-hidden="true" />
         </div>
-        <h3 className="text-lg font-semibold text-white tracking-tight mb-2">
+        <h3 className="text-lg font-semibold text-stone-900 tracking-tight mb-2">
           Stronger Rewrite
         </h3>
-        <p className="text-sm text-neutral-600 leading-relaxed max-w-xs">
+        <p className="text-sm text-stone-600 leading-relaxed max-w-xs">
           Don&apos;t just find the problems &mdash; fix them. Get a battle-hardened rewrite
           optimized to survive investor scrutiny.
         </p>
@@ -115,7 +115,7 @@ const SMALL_FEATURES = [
 
 export function Features() {
   return (
-    <section id="features" className="py-28 px-6 border-t border-[#111111]">
+    <section id="features" className="py-28 px-6 border-t border-[#E7E0D6]">
       <div className="max-w-7xl mx-auto">
 
         {/* Heading */}
@@ -126,16 +126,16 @@ export function Features() {
           transition={{ duration: 0.5, ease: "easeOut" }}
           className="mb-14"
         >
-          <p className="text-[11px] text-neutral-600 tracking-[0.2em] uppercase font-medium mb-4">
+          <p className="text-[11px] text-neutral-500 uppercase tracking-[0.2em] font-medium mb-4">
             Features
           </p>
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
-            <h2 className="text-4xl md:text-[56px] font-semibold text-white tracking-tighter leading-[1.03]">
+            <h2 className="text-4xl md:text-[56px] font-heading font-normal text-stone-900 tracking-tight leading-[1.06]">
               Nine layers.
               <br />
               One pitch test.
             </h2>
-            <p className="text-neutral-600 text-sm max-w-xs lg:text-right leading-relaxed pb-1">
+            <p className="text-stone-600 text-sm max-w-xs lg:text-right leading-relaxed pb-1">
               Most tools give you encouragement. PitchCrush gives you the full signal stack.
             </p>
           </div>
@@ -163,16 +163,16 @@ export function Features() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.45, delay: 0.05 + i * 0.06, ease: "easeOut" }}
-              className="p-6 rounded-2xl bg-[#0d0d0d] border border-[#1a1a1a] hover:border-[#252525] hover:bg-[#0f0f0f] transition-all duration-300 group"
+              className="p-6 rounded-2xl bg-white border border-[#E7E0D6] hover:border-[#D4CBBF] hover:bg-[#FAF7F2] transition-all duration-300 group"
             >
-              <div className="w-8 h-8 rounded-lg bg-[#141414] border border-[#1e1e1e] flex items-center justify-center mb-4 group-hover:border-red-500/20 group-hover:bg-red-500/5 transition-all duration-300">
+              <div className="w-8 h-8 rounded-lg bg-[#F5F0E8] border border-[#E7E0D6] flex items-center justify-center mb-4 group-hover:border-red-300 group-hover:bg-red-50 transition-all duration-300">
                 <Icon
-                  className="w-4 h-4 text-neutral-600 group-hover:text-red-400 transition-colors duration-300"
+                  className="w-4 h-4 text-stone-400 group-hover:text-red-500 transition-colors duration-300"
                   aria-hidden="true"
                 />
               </div>
-              <h3 className="font-semibold text-white text-[13px] mb-1.5 tracking-tight">{title}</h3>
-              <p className="text-xs text-neutral-700 leading-relaxed">{description}</p>
+              <h3 className="font-semibold text-stone-900 text-[13px] mb-1.5 tracking-tight">{title}</h3>
+              <p className="text-xs text-stone-600 leading-relaxed">{description}</p>
             </motion.div>
           ))}
 
@@ -184,16 +184,16 @@ export function Features() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.45, delay: 0.25 + i * 0.06, ease: "easeOut" }}
-              className="p-6 rounded-2xl bg-[#0d0d0d] border border-[#1a1a1a] hover:border-[#252525] hover:bg-[#0f0f0f] transition-all duration-300 group"
+              className="p-6 rounded-2xl bg-white border border-[#E7E0D6] hover:border-[#D4CBBF] hover:bg-[#FAF7F2] transition-all duration-300 group"
             >
-              <div className="w-8 h-8 rounded-lg bg-[#141414] border border-[#1e1e1e] flex items-center justify-center mb-4 group-hover:border-red-500/20 group-hover:bg-red-500/5 transition-all duration-300">
+              <div className="w-8 h-8 rounded-lg bg-[#F5F0E8] border border-[#E7E0D6] flex items-center justify-center mb-4 group-hover:border-red-300 group-hover:bg-red-50 transition-all duration-300">
                 <Icon
-                  className="w-4 h-4 text-neutral-600 group-hover:text-red-400 transition-colors duration-300"
+                  className="w-4 h-4 text-stone-400 group-hover:text-red-500 transition-colors duration-300"
                   aria-hidden="true"
                 />
               </div>
-              <h3 className="font-semibold text-white text-[13px] mb-1.5 tracking-tight">{title}</h3>
-              <p className="text-xs text-neutral-700 leading-relaxed">{description}</p>
+              <h3 className="font-semibold text-stone-900 text-[13px] mb-1.5 tracking-tight">{title}</h3>
+              <p className="text-xs text-stone-600 leading-relaxed">{description}</p>
             </motion.div>
           ))}
 

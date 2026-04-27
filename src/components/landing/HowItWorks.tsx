@@ -32,7 +32,7 @@ const STEPS = [
 
 export function HowItWorks() {
   return (
-    <section id="how-it-works" className="py-28 px-6 border-t border-[#111111]">
+    <section id="how-it-works" className="py-28 px-6 border-t border-[#E7E0D6]">
       <div className="max-w-7xl mx-auto">
 
         {/* Section heading — intentionally asymmetric */}
@@ -43,18 +43,18 @@ export function HowItWorks() {
           transition={{ duration: 0.5, ease: "easeOut" }}
           className="mb-20"
         >
-          <p className="text-[11px] text-neutral-600 tracking-[0.2em] uppercase font-medium mb-4">
+          <p className="text-[11px] text-neutral-500 uppercase tracking-[0.2em] font-medium mb-4">
             How it works
           </p>
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
-            <h2 className="text-4xl md:text-[56px] font-semibold text-white tracking-tighter leading-[1.03] max-w-lg">
+            <h2 className="text-4xl md:text-[56px] font-heading font-normal text-stone-900 tracking-tight leading-[1.06] max-w-lg">
               Paste.
               <br />
               Get crushed.
               <br />
               Rebuild stronger.
             </h2>
-            <p className="text-neutral-600 text-sm max-w-xs lg:text-right leading-relaxed pb-1">
+            <p className="text-stone-600 text-sm max-w-xs lg:text-right leading-relaxed pb-1">
               Three steps. Zero sugar-coating. Just honest investor-grade feedback.
             </p>
           </div>
@@ -66,7 +66,7 @@ export function HowItWorks() {
           <div className="relative flex items-center justify-between mb-8 px-8">
             <div
               aria-hidden="true"
-              className="absolute left-16 right-16 top-1/2 -translate-y-1/2 h-px bg-linear-to-r from-transparent via-[#1e1e1e] to-transparent"
+              className="absolute left-16 right-16 top-1/2 -translate-y-1/2 h-px bg-linear-to-r from-transparent via-[#E7E0D6] to-transparent"
             />
             {STEPS.map(({ number }, i) => (
               <motion.div
@@ -75,9 +75,9 @@ export function HowItWorks() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: i * 0.12, ease: "easeOut" }}
-                className="relative z-10 w-10 h-10 rounded-full bg-[#0A0A0A] border border-[#2a2a2a] flex items-center justify-center"
+                className="relative z-10 w-10 h-10 rounded-full bg-white border border-[#E7E0D6] flex items-center justify-center shadow-sm"
               >
-                <span className="text-[11px] font-mono text-neutral-500">{number}</span>
+                <span className="text-[11px] font-mono text-stone-400">{number}</span>
               </motion.div>
             ))}
           </div>
@@ -91,20 +91,20 @@ export function HowItWorks() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.1, ease: "easeOut" }}
-                className="p-7 rounded-2xl bg-[#111111] border border-[#1a1a1a] hover:border-[#252525] transition-colors duration-300 group flex flex-col gap-5"
+                className="p-7 rounded-2xl bg-white border border-[#E7E0D6] hover:border-[#D4CBBF] transition-colors duration-300 group flex flex-col gap-5"
               >
-                <div className="w-9 h-9 rounded-xl bg-[#161616] border border-[#222222] flex items-center justify-center group-hover:border-red-500/20 group-hover:bg-red-500/5 transition-all duration-300">
-                  <Icon className="w-4 h-4 text-neutral-500 group-hover:text-red-400 transition-colors duration-300" aria-hidden="true" />
+                <div className="w-9 h-9 rounded-xl bg-[#F5F0E8] border border-[#E7E0D6] flex items-center justify-center group-hover:border-red-300 group-hover:bg-red-50 transition-all duration-300">
+                  <Icon className="w-4 h-4 text-stone-400 group-hover:text-red-500 transition-colors duration-300" aria-hidden="true" />
                 </div>
                 <div>
-                  <h3 className="text-[15px] font-semibold text-white mb-2 tracking-tight">
+                  <h3 className="text-[15px] font-semibold text-stone-900 mb-2 tracking-tight">
                     {title}
                   </h3>
-                  <p className="text-sm text-neutral-600 leading-relaxed">
+                  <p className="text-sm text-stone-600 leading-relaxed">
                     {description}
                   </p>
                 </div>
-                <p className="text-[11px] text-red-500/70 font-medium mt-auto pt-2 border-t border-[#161616]">
+                <p className="text-[11px] text-red-500 font-medium mt-auto pt-2 border-t border-[#EDE8E0]">
                   {detail}
                 </p>
               </motion.div>
@@ -121,15 +121,15 @@ export function HowItWorks() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.08, ease: "easeOut" }}
-              className="p-6 rounded-2xl bg-[#111111] border border-[#1a1a1a] flex gap-5"
+              className="p-6 rounded-2xl bg-white border border-[#E7E0D6] flex gap-5"
             >
-              <div className="shrink-0 w-9 h-9 rounded-xl bg-[#161616] border border-[#222222] flex items-center justify-center">
-                <Icon className="w-4 h-4 text-neutral-500" aria-hidden="true" />
+              <div className="shrink-0 w-9 h-9 rounded-xl bg-[#F5F0E8] border border-[#E7E0D6] flex items-center justify-center">
+                <Icon className="w-4 h-4 text-stone-400" aria-hidden="true" />
               </div>
               <div>
-                <p className="text-[10px] text-neutral-700 font-mono mb-1">{number}</p>
-                <h3 className="text-sm font-semibold text-white mb-1.5 tracking-tight">{title}</h3>
-                <p className="text-xs text-neutral-600 leading-relaxed">{description}</p>
+                <p className="text-[10px] text-stone-400 font-mono mb-1">{number}</p>
+                <h3 className="text-sm font-semibold text-stone-900 mb-1.5 tracking-tight">{title}</h3>
+                <p className="text-xs text-stone-600 leading-relaxed">{description}</p>
                 <p className="text-[11px] text-emerald-600 font-medium mt-2">{detail}</p>
               </div>
             </motion.div>

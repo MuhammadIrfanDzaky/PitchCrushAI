@@ -20,7 +20,7 @@ export function Navbar() {
       transition={{ duration: 0.5, ease: "easeOut" }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-[#0A0A0A]/90 backdrop-blur-xl border-b border-[#141414]"
+          ? "bg-[#F7F3EA]/95 backdrop-blur-xl border-b border-[#E7E0D6]"
           : "bg-transparent"
       }`}
     >
@@ -34,11 +34,11 @@ export function Navbar() {
         >
           {/* Logo mark: target/crush icon */}
           <div className="flex flex-col gap-0.75 py-0.5" aria-hidden="true">
-            <span className="block w-4 h-px bg-red-400" />
-            <span className="block w-2.5 h-px bg-red-400/50" />
+            <span className="block w-4 h-px bg-red-500" />
+            <span className="block w-2.5 h-px bg-red-400/60" />
           </div>
-          <span className="font-semibold text-white text-[15px] tracking-tight leading-none">
-            PitchCrush<span className="text-red-400">AI</span>
+          <span className="font-semibold text-stone-900 text-[15px] tracking-tight leading-none">
+            PitchCrush<span className="text-red-500">AI</span>
           </span>
         </Link>
 
@@ -55,7 +55,7 @@ export function Navbar() {
             <Link
               key={label}
               href={href}
-              className="text-[13px] text-neutral-500 hover:text-neutral-200 transition-colors duration-150"
+              className="text-[13px] text-stone-500 hover:text-stone-900 transition-colors duration-150"
             >
               {label}
             </Link>
@@ -63,16 +63,10 @@ export function Navbar() {
         </nav>
 
         {/* Right side */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center">
           <Link
             href="/analyze"
-            className="hidden md:inline-flex text-[13px] text-neutral-500 hover:text-neutral-200 transition-colors duration-150 select-none"
-          >
-            Open App
-          </Link>
-          <Link
-            href="/analyze"
-            className="h-8 px-4 flex items-center rounded-full bg-red-500 text-white text-[13px] font-medium hover:bg-red-400 active:scale-[0.97] transition-all duration-150 select-none"
+            className="h-8 px-4 flex items-center rounded-full bg-red-600 text-white text-[13px] font-medium hover:bg-red-500 active:scale-[0.97] transition-all duration-150 select-none"
           >
             Crush My Pitch
           </Link>

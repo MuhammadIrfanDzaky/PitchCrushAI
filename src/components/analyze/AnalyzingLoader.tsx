@@ -60,7 +60,7 @@ export function AnalyzingLoader() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -7 }}
               transition={{ duration: 0.25, ease: "easeOut" }}
-              className="text-[13px] text-neutral-400 text-center"
+              className="text-[13px] text-stone-500 text-center"
             >
               {MESSAGES[index]}
             </motion.p>
@@ -69,7 +69,7 @@ export function AnalyzingLoader() {
 
         {/* Progress bar */}
         <div className="w-full">
-          <div className="h-0.5 bg-[#1a1a1a] rounded-full overflow-hidden">
+          <div className="h-0.5 bg-[#E7E0D6] rounded-full overflow-hidden">
             <motion.div
               className="h-full bg-linear-to-r from-red-600 to-red-400 rounded-full"
               animate={{ width: `${step.pct}%` }}
@@ -81,7 +81,7 @@ export function AnalyzingLoader() {
               <div
                 key={s.label}
                 className={`w-1 h-1 rounded-full transition-colors duration-300 ${
-                  i <= index ? "bg-red-500" : "bg-[#1e1e1e]"
+                  i <= index ? "bg-red-500" : "bg-[#DDD8CE]"
                 }`}
                 aria-hidden="true"
               />
@@ -111,7 +111,7 @@ export function ReanalyzingOverlay() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.2 }}
-      className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-4 bg-[#0A0A0A]/80 backdrop-blur-sm rounded-none"
+      className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-4 bg-[#F7F3EA]/85 backdrop-blur-sm rounded-none"
       aria-live="polite"
     >
       {/* Spinning ring */}
@@ -126,7 +126,7 @@ export function ReanalyzingOverlay() {
             cy="20"
             r="16"
             fill="none"
-            stroke="#1a1a1a"
+            stroke="#E7E0D6"
             strokeWidth="2"
           />
           <circle
@@ -153,7 +153,7 @@ export function ReanalyzingOverlay() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -5 }}
             transition={{ duration: 0.22, ease: "easeOut" }}
-            className="text-[12px] text-neutral-500 text-center"
+            className="text-[12px] text-stone-500 text-center"
           >
             {MESSAGES[index]}
           </motion.p>

@@ -92,17 +92,17 @@ export function InputPanel({
     <div className="p-6 flex flex-col gap-7">
       {/* Panel header */}
       <div>
-        <h1 className="text-[15px] font-semibold text-white tracking-tight">
+        <h1 className="text-[15px] font-semibold text-stone-900 tracking-tight">
           Stress test your pitch
         </h1>
-        <p className="text-[12px] text-neutral-600 mt-1 leading-relaxed">
+        <p className="text-[12px] text-stone-500 mt-1 leading-relaxed">
           Paste any pitch — one-liner, cold email, or deck summary.
         </p>
       </div>
 
       {/* Context selector */}
       <div>
-        <p className="text-[11px] text-neutral-600 uppercase tracking-[0.14em] font-medium mb-3">
+        <p className="text-[11px] text-stone-500 uppercase tracking-[0.14em] font-medium mb-3">
           Stress test mode
         </p>
         <div className="grid grid-cols-4 gap-1.5">
@@ -114,8 +114,8 @@ export function InputPanel({
               aria-label={`Set context to ${label}`}
               className={`flex flex-col items-center gap-1.5 py-3 px-1 rounded-xl border text-[10px] font-medium transition-all duration-150 select-none leading-none ${
                 context === value
-                  ? "bg-emerald-500/8 border-emerald-500/25 text-emerald-400"
-                  : "bg-[#111111] border-[#1a1a1a] text-neutral-600 hover:text-neutral-300 hover:border-[#252525]"
+                  ? "bg-emerald-50 border-emerald-300 text-emerald-700"
+                  : "bg-white border-[#E7E0D6] text-stone-500 hover:text-stone-800 hover:border-[#D4CBBF]"
               }`}
             >
               <Icon className="w-4 h-4 shrink-0" aria-hidden="true" />
@@ -129,7 +129,7 @@ export function InputPanel({
       <div>
         <label
           htmlFor="goal-select"
-          className="block text-[11px] text-neutral-600 uppercase tracking-[0.14em] font-medium mb-3"
+          className="block text-[11px] text-stone-500 uppercase tracking-[0.14em] font-medium mb-3"
         >
           Your goal
         </label>
@@ -138,17 +138,17 @@ export function InputPanel({
             id="goal-select"
             value={goal}
             onChange={(e) => onGoalChange(e.target.value)}
-            className="w-full h-10 pl-3.5 pr-9 rounded-xl bg-[#111111] border border-[#1a1a1a] text-[13px] text-neutral-300 appearance-none cursor-pointer focus:outline-none focus:border-red-500/35 hover:border-[#252525] transition-colors duration-150"
+            className="w-full h-10 pl-3.5 pr-9 rounded-xl bg-white border border-[#E7E0D6] text-[13px] text-stone-800 appearance-none cursor-pointer focus:outline-none focus:border-red-400 hover:border-[#D4CBBF] transition-colors duration-150"
           >
             {GOALS.map(({ value, label }) => (
-              <option key={value} value={value} className="bg-[#111111] text-neutral-300">
+              <option key={value} value={value} className="bg-white text-stone-800">
                 {label}
               </option>
             ))}
           </select>
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-neutral-600"
+            className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-stone-400"
           >
             <svg width="10" height="6" viewBox="0 0 10 6" fill="none">
               <path
@@ -167,7 +167,7 @@ export function InputPanel({
       <div>
         <label
           htmlFor="message-textarea"
-          className="block text-[11px] text-neutral-600 uppercase tracking-[0.14em] font-medium mb-3"
+          className="block text-[11px] text-stone-500 uppercase tracking-[0.14em] font-medium mb-3"
         >
           Pitch text
         </label>
@@ -178,13 +178,13 @@ export function InputPanel({
             onChange={(e) => onMessageChange(e.target.value.slice(0, MAX_CHARS))}
             placeholder="Paste your pitch — one-liner, cold email, investor memo, or sales deck summary..."
             rows={7}
-            className="w-full bg-[#111111] border border-[#1a1a1a] rounded-xl px-4 py-3.5 text-[13px] text-neutral-300 placeholder-neutral-700 resize-none focus:outline-none focus:border-emerald-500/35 hover:border-[#252525] transition-colors duration-150 leading-relaxed"
+            className="w-full bg-white border border-[#E7E0D6] rounded-xl px-4 py-3.5 text-[13px] text-stone-900 placeholder-stone-400 resize-none focus:outline-none focus:border-emerald-400 hover:border-[#D4CBBF] transition-colors duration-150 leading-relaxed"
           />
           <div className="absolute bottom-3 right-3.5 flex items-center gap-2.5">
             {message.length > 0 && (
               <button
                 onClick={() => onMessageChange("")}
-                className="text-neutral-700 hover:text-neutral-400 transition-colors duration-150"
+                className="text-stone-400 hover:text-stone-600 transition-colors duration-150"
                 aria-label="Clear message"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
@@ -192,9 +192,9 @@ export function InputPanel({
             )}
             <span
               className={`text-[10px] tabular-nums ${
-                message.length > MAX_CHARS * 0.9
+                  message.length > MAX_CHARS * 0.9
                   ? "text-amber-600"
-                  : "text-neutral-700"
+                  : "text-stone-400"
               }`}
             >
               {message.length}/{MAX_CHARS}
@@ -205,7 +205,7 @@ export function InputPanel({
 
       {/* Sample messages */}
       <div>
-        <p className="text-[11px] text-neutral-600 uppercase tracking-[0.14em] font-medium mb-3">
+        <p className="text-[11px] text-stone-500 uppercase tracking-[0.14em] font-medium mb-3">
           Try a sample
         </p>
         <div className="flex flex-col gap-2">
@@ -217,12 +217,12 @@ export function InputPanel({
                 onContextChange(sampleCtx);
                 onGoalChange(sampleGoal);
               }}
-              className="flex items-start gap-3 px-3.5 py-3 rounded-xl bg-[#111111] border border-[#1a1a1a] hover:border-[#252525] hover:bg-[#131313] text-left transition-all duration-150 group"
+              className="flex items-start gap-3 px-3.5 py-3 rounded-xl bg-[#FAF7F2] border border-[#E7E0D6] hover:border-[#D4CBBF] hover:bg-[#F5F0E8] text-left transition-all duration-150 group"
             >
-              <span className="shrink-0 text-[10px] text-neutral-700 bg-[#191919] border border-[#222222] px-2 py-1 rounded-md mt-0.5 group-hover:text-neutral-500 transition-colors duration-150 font-medium leading-none">
+              <span className="shrink-0 text-[10px] text-stone-500 bg-stone-100 border border-stone-200 px-2 py-1 rounded-md mt-0.5 group-hover:text-stone-700 transition-colors duration-150 font-medium leading-none">
                 {label}
               </span>
-              <span className="text-[12px] text-neutral-600 leading-relaxed line-clamp-2 group-hover:text-neutral-400 transition-colors duration-150">
+              <span className="text-[12px] text-stone-500 leading-relaxed line-clamp-2 group-hover:text-stone-700 transition-colors duration-150">
                 {sampleMsg}
               </span>
             </button>
@@ -237,8 +237,8 @@ export function InputPanel({
         aria-label={isLoading ? "Analyzing pitch…" : "Analyze pitch"}
         className={`relative h-11 w-full rounded-xl font-semibold text-[13px] flex items-center justify-center gap-2 select-none transition-all duration-200 ${
           canAnalyze
-            ? "bg-red-500 text-white hover:bg-red-400 active:scale-[0.98]"
-            : "bg-[#111111] border border-[#1a1a1a] text-neutral-700 cursor-not-allowed"
+            ? "bg-red-600 text-white hover:bg-red-500 active:scale-[0.98]"
+            : "bg-stone-100 border border-stone-200 text-stone-400 cursor-not-allowed"
         }`}
       >
         {isLoading ? (

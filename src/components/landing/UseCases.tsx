@@ -9,8 +9,8 @@ const USE_CASES = [
       "Run your pitch before a high-stakes meeting. PitchCrush surfaces hard questions you haven't answered yet — so you're not caught off guard in the room.",
     tag: "Investor Prep",
     score: "Skepticism Score",
-    scoreColor: "text-red-400",
-    scoreBg: "bg-red-500/8 border-red-500/15",
+    scoreColor: "text-red-600",
+    scoreBg: "bg-red-50 border-red-200",
   },
   {
     scenario: "Accelerator application",
@@ -18,8 +18,8 @@ const USE_CASES = [
       "Detect vague language and unsupported claims before submission. Replace weak phrases with concrete proof before reviewers see them.",
     tag: "YC / Accelerator",
     score: "Weak Phrase Detector",
-    scoreColor: "text-amber-400",
-    scoreBg: "bg-amber-500/8 border-amber-500/15",
+    scoreColor: "text-amber-700",
+    scoreBg: "bg-amber-50 border-amber-200",
   },
   {
     scenario: "Competitive defensibility",
@@ -27,8 +27,8 @@ const USE_CASES = [
       "Test whether your moat holds up under scrutiny. Know exactly where a competitor or skeptic will attack your differentiation story.",
     tag: "Moat Analysis",
     score: "Moat Risk Signal",
-    scoreColor: "text-purple-400",
-    scoreBg: "bg-purple-500/8 border-purple-500/15",
+    scoreColor: "text-purple-700",
+    scoreBg: "bg-purple-50 border-purple-200",
   },
 ] as const;
 
@@ -52,11 +52,11 @@ export function UseCases() {
           transition={{ duration: 0.5, ease: "easeOut" }}
           className="mb-14"
         >
-          <p className="text-[11px] text-neutral-600 tracking-[0.2em] uppercase font-medium mb-4">
+          <p className="text-[11px] text-neutral-500 uppercase tracking-[0.2em] font-medium mb-4">
             Who uses it
           </p>
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
-            <h2 className="text-4xl md:text-[56px] font-semibold text-white tracking-tighter leading-[1.03]">
+            <h2 className="text-4xl md:text-[56px] font-heading font-normal text-stone-900 tracking-tight leading-[1.06]">
               Where founders
               <br />
               stress test their pitch.
@@ -65,7 +65,7 @@ export function UseCases() {
               {OTHER_USERS.map((u) => (
                 <span
                   key={u}
-                  className="text-[11px] text-neutral-600 bg-[#111111] border border-[#1a1a1a] px-3 py-1.5 rounded-full"
+                  className="text-[11px] text-stone-500 bg-[#F5F0E8] border border-[#E7E0D6] px-3 py-1.5 rounded-full"
                 >
                   {u}
                 </span>
@@ -83,7 +83,7 @@ export function UseCases() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.1, ease: "easeOut" }}
-              className="flex flex-col gap-5 p-7 rounded-2xl bg-[#0d0d0d] border border-[#1a1a1a] hover:border-[#252525] transition-colors duration-300"
+              className="flex flex-col gap-5 p-7 rounded-2xl bg-white border border-[#E7E0D6] hover:border-[#D4CBBF] hover:shadow-sm transition-all duration-300"
             >
               {/* Signal badge */}
               <span
@@ -93,12 +93,12 @@ export function UseCases() {
               </span>
 
               {/* Description */}
-              <p className="flex-1 text-sm text-neutral-400 leading-relaxed">{description}</p>
+              <p className="flex-1 text-sm text-stone-600 leading-relaxed">{description}</p>
 
               {/* Scenario footer */}
-              <div className="flex items-center justify-between pt-4 border-t border-[#141414]">
-                <p className="text-[13px] font-semibold text-white">{scenario}</p>
-                <span className="text-[10px] text-neutral-700 bg-[#111111] border border-[#1a1a1a] px-2.5 py-1 rounded-full">
+              <div className="flex items-center justify-between pt-4 border-t border-[#EDE8E0]">
+                <p className="text-[13px] font-semibold text-stone-900">{scenario}</p>
+                <span className="text-[10px] text-stone-500 bg-[#F5F0E8] border border-[#E7E0D6] px-2.5 py-1 rounded-full">
                   {tag}
                 </span>
               </div>

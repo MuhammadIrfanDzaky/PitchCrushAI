@@ -7,9 +7,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
+  --font-sans: var(--font-inter);
   --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
+  --font-heading: var(--font-sora);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -49,7 +49,7 @@
 }
 
 :root {
-  --background: oklch(1 0 0);
+  --background: oklch(0.975 0.008 75);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
@@ -64,8 +64,8 @@
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
+  --border: oklch(0.88 0.012 75);
+  --input: oklch(0.92 0.008 75);
   --ring: oklch(0.708 0 0);
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
@@ -79,7 +79,7 @@
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.97 0 0);
   --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-border: oklch(0.88 0.012 75);
   --sidebar-ring: oklch(0.708 0 0);
 }
 
@@ -127,4 +127,44 @@
   html {
     @apply font-sans;
   }
+}
+
+/* ── Premium custom scrollbars ──────────────────────────────────── */
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 100px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 100px;
+  transition: background-color 200ms ease;
+}
+
+/* Reveal thumb when parent container is hovered */
+aside:hover::-webkit-scrollbar-thumb,
+main:hover::-webkit-scrollbar-thumb,
+textarea:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(196, 187, 175, 0.5);
+}
+
+/* Red tint on direct scrollbar thumb hover */
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(220, 60, 60, 0.35) !important;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background-color: rgba(220, 60, 60, 0.5) !important;
+}
+
+/* Firefox — thin track, subtle warm thumb */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(196, 187, 175, 0.35) transparent;
 }

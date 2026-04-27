@@ -9,16 +9,16 @@ const LINKS = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-[#111111] py-10 px-6">
+    <footer className="border-t border-[#E7E0D6] py-10 px-6">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
         {/* Brand */}
         <div>
           <Link href="/" className="select-none" aria-label="PitchCrush AI home">
-            <span className="font-semibold text-white text-base tracking-tight">
-              PitchCrush<span className="text-red-400">AI</span>
+            <span className="font-semibold text-stone-900 text-base tracking-tight">
+              PitchCrush<span className="text-red-500">AI</span>
             </span>
           </Link>
-          <p className="text-[11px] text-neutral-700 mt-1">
+          <p className="text-[11px] text-neutral-600 mt-1">
             Stress test your startup before investors do.
           </p>
         </div>
@@ -29,7 +29,7 @@ export function Footer() {
             <Link
               key={label}
               href={href}
-              className="text-xs text-neutral-600 hover:text-white transition-colors duration-150"
+              className="text-xs text-neutral-500 hover:text-white transition-colors duration-150"
             >
               {label}
             </Link>
@@ -37,7 +37,7 @@ export function Footer() {
         </nav>
 
         {/* Copyright */}
-        <p className="text-[11px] text-neutral-700">
+        <p className="text-[11px] text-neutral-600">
           © {new Date().getFullYear()} PitchCrush AI. All rights reserved.
         </p>
       </div>

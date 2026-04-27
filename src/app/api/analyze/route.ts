@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import type { AnalysisResult } from "@/lib/types/analysis";
+import { generateFallbackAnalysis } from "@/lib/fallback-analysis";
 
 /* ─── Input allowlists ──────────────────────────────────────────── */
 
@@ -204,7 +205,7 @@ ${message.trim()}
           { role: "system", content: SYSTEM_PROMPT },
           { role: "user", content: userPrompt },
         ],
-        max_tokens: 1500,
+        max_tokens: 900,
         temperature: 0.3,
       }),
       signal: controller.signal,
@@ -215,30 +216,15 @@ ${message.trim()}
     if (!openRouterRes.ok) {
       const errText = await openRouterRes.text();
       console.error("OpenRouter error:", openRouterRes.status, errText);
-
-      if (openRouterRes.status === 429) {
-        return NextResponse.json(
-          { error: "Too many requests. Please wait a moment and try again." },
-          { status: 429 }
-        );
-      }
-      if (openRouterRes.status === 401 || openRouterRes.status === 403) {
-        return NextResponse.json(
-          { error: "Authentication error. Service not configured correctly." },
-          { status: 401 }
-        );
-      }
-      return NextResponse.json(
-        { error: "AI service returned an error. Please try again." },
-        { status: 502 }
-      );
+      // Fall through to fallback
+      throw new Error(`OpenRouter HTTP ${openRouterRes.status}`);
     }
 
     const data = await openRouterRes.json();
     const rawContent: string = data.choices?.[0]?.message?.content ?? "";
 
     if (!rawContent) {
-      return NextResponse.json({ error: "Empty response from AI service." }, { status: 502 });
+      throw new Error("Empty AI response");
     }
 
     // Parse raw text → JSON
@@ -247,20 +233,14 @@ ${message.trim()}
       parsed = parseJSON(rawContent);
     } catch {
       console.error("JSON parse failed for content:", rawContent.slice(0, 300));
-      return NextResponse.json(
-        { error: "AI returned an unreadable response. Please try again." },
-        { status: 422 }
-      );
+      throw new Error("AI JSON parse failure");
     }
 
     // Zod schema validation
     const validated = AnalysisResultSchema.safeParse(parsed);
     if (!validated.success) {
       console.error("Schema validation failed:", validated.error.flatten());
-      return NextResponse.json(
-        { error: "AI response did not match expected structure. Please try again." },
-        { status: 422 }
-      );
+      throw new Error("AI schema mismatch");
     }
 
     const result: AnalysisResult = validated.data;
@@ -269,16 +249,13 @@ ${message.trim()}
     clearTimeout(timeoutId);
 
     if (err instanceof Error && err.name === "AbortError") {
-      return NextResponse.json(
-        { error: "Analysis timed out. Please try again." },
-        { status: 504 }
-      );
+      console.error("OpenRouter timeout — using fallback");
+    } else {
+      console.error("Analyze route error — using fallback:", err);
     }
 
-    console.error("Analyze route error:", err);
-    return NextResponse.json(
-      { error: "Failed to analyze pitch. Please try again." },
-      { status: 500 }
-    );
+    // Fallback: generate heuristic analysis locally
+    const result: AnalysisResult = generateFallbackAnalysis(message, context, goal);
+    return NextResponse.json({ result });
   }
 }

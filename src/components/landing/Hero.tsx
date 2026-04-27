@@ -111,18 +111,18 @@ export function Hero() {
     <section className="relative min-h-screen flex items-center px-6 pt-24 pb-20 overflow-hidden">
       {/* Ambient glow */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute top-1/4 left-1/4 w-175 h-175 rounded-full bg-red-500/5 blur-[160px]" />
-        <div className="absolute bottom-1/3 right-1/4 w-100 h-100 rounded-full bg-red-500/3 blur-[100px]" />
+        <div className="absolute top-1/4 left-1/4 w-175 h-175 rounded-full bg-red-400/8 blur-[160px]" />
+        <div className="absolute bottom-1/3 right-1/4 w-100 h-100 rounded-full bg-amber-400/6 blur-[100px]" />
       </div>
 
-      {/* Grid */}
+      {/* Subtle warm dot grid */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10 opacity-[0.018]"
+        className="pointer-events-none absolute inset-0 -z-10 opacity-[0.35]"
         style={{
           backgroundImage:
-            "linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(to right, #ffffff 1px, transparent 1px)",
-          backgroundSize: "64px 64px",
+            "radial-gradient(circle, #C4BBAF 1px, transparent 1px)",
+          backgroundSize: "32px 32px",
         }}
       />
 
@@ -138,8 +138,8 @@ export function Hero() {
           >
             {/* Badge */}
             <motion.div variants={itemVariants}>
-              <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#111111] border border-[#1e1e1e] text-[11px] text-neutral-500 tracking-wide select-none">
-                <Sparkles className="w-3 h-3 text-red-400" aria-hidden="true" />
+              <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-[#E7E0D6] text-[11px] text-stone-500 tracking-wide select-none shadow-sm">
+                <Sparkles className="w-3 h-3 text-red-500" aria-hidden="true" />
                 AI Pitch Intelligence
               </span>
             </motion.div>
@@ -147,12 +147,12 @@ export function Hero() {
             {/* Headline */}
             <motion.h1
               variants={itemVariants}
-              className="text-[52px] sm:text-6xl lg:text-[64px] font-semibold tracking-tighter text-white leading-[1.03]"
+              className="text-[52px] sm:text-6xl lg:text-[64px] font-heading font-normal tracking-tight text-stone-900 leading-[1.06]"
             >
               Stress test your
               <br />
               pitch{" "}
-              <span className="bg-linear-to-r from-red-400 via-orange-300 to-amber-400 bg-clip-text text-transparent italic">
+              <span className="text-red-600 italic">
                 before
               </span>{" "}
               investors do.
@@ -161,7 +161,7 @@ export function Hero() {
             {/* Subheadline */}
             <motion.p
               variants={itemVariants}
-              className="text-[17px] text-neutral-500 leading-relaxed max-w-md"
+              className="text-[17px] text-stone-600 leading-relaxed max-w-md"
             >
               Paste your pitch. Get brutally honest feedback simulating how VCs,
               customers, and competitors will tear it apart &mdash; in seconds.
@@ -174,7 +174,7 @@ export function Hero() {
             >
               <Link
                 href="/analyze"
-                className="group inline-flex items-center gap-2 h-11 px-6 rounded-full bg-red-500 text-white text-sm font-semibold hover:bg-red-400 active:scale-[0.98] transition-all duration-150 select-none"
+                className="group inline-flex items-center gap-2 h-11 px-6 rounded-full bg-red-600 text-white text-sm font-semibold hover:bg-red-500 active:scale-[0.98] transition-all duration-150 select-none"
               >
                 Crush My Pitch
                 <ArrowRight
@@ -184,7 +184,7 @@ export function Hero() {
               </Link>
               <Link
                 href="#how-it-works"
-                className="inline-flex items-center h-11 px-6 rounded-full border border-[#1e1e1e] text-sm text-neutral-500 hover:text-white hover:border-[#2e2e2e] active:scale-[0.98] transition-all duration-150 select-none"
+                className="inline-flex items-center h-11 px-6 rounded-full border border-stone-300 text-sm text-stone-600 hover:text-stone-900 hover:border-stone-400 active:scale-[0.98] transition-all duration-150 select-none"
               >
                 See how it works
               </Link>
@@ -195,13 +195,13 @@ export function Hero() {
               {STATS.map(({ value, label }, i) => (
                 <div key={label} className="flex items-center">
                   <div className="pr-6">
-                    <p className="text-xl font-semibold text-white tracking-tight tabular-nums">
+                    <p className="text-xl font-semibold text-stone-900 tracking-tight tabular-nums">
                       {value}
                     </p>
-                    <p className="text-[11px] text-neutral-600 mt-0.5">{label}</p>
+                    <p className="text-[11px] text-stone-500 mt-0.5">{label}</p>
                   </div>
                   {i < STATS.length - 1 && (
-                    <div className="w-px h-8 bg-[#1e1e1e] mr-6" aria-hidden="true" />
+                    <div className="w-px h-8 bg-[#E7E0D6] mr-6" aria-hidden="true" />
                   )}
                 </div>
               ))}
