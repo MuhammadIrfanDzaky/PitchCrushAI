@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   Target,
   TrendingUp,
@@ -14,7 +14,7 @@ import {
   Activity,
   Sparkles,
 } from "lucide-react";
-import { AnalyzingLoader } from "./AnalyzingLoader";
+import { AnalyzingLoader, ReanalyzingOverlay } from "./AnalyzingLoader";
 import type { AnalysisResult } from "@/lib/types/analysis";
 
 /* ─── Color map for tone chips ──────────────────────────────────── */
@@ -167,11 +167,12 @@ function ErrorState({ message }: { message: string }) {
 
 interface ResultsDashboardProps {
   isLoading: boolean;
+  isReanalyzing: boolean;
   result: AnalysisResult | null;
   error: string | null;
 }
 
-export function ResultsDashboard({ isLoading, result, error }: ResultsDashboardProps) {
+export function ResultsDashboard({ isLoading, isReanalyzing, result, error }: ResultsDashboardProps) {
   const [copied, setCopied] = useState(false);
 
   async function handleCopy(text: string) {
@@ -184,12 +185,33 @@ export function ResultsDashboard({ isLoading, result, error }: ResultsDashboardP
     }
   }
 
-  if (isLoading) return <AnalyzingLoader />;
-  if (error) return <ErrorState message={error} />;
+  if (isLoading && !isReanalyzing) return <AnalyzingLoader />;
+  if (error && !result) return <ErrorState message={error} />;
   if (!result) return <IdleState />;
 
   return (
-    <div className="p-6 lg:p-8">
+    <div className="relative p-6 lg:p-8">
+      {/* Re-analyze overlay — rendered on top of existing results */}
+      <AnimatePresence>
+        {isReanalyzing && <ReanalyzingOverlay />}
+      </AnimatePresence>
+
+      {/* Inline error banner shown when re-analysis fails but old result is still visible */}
+      <AnimatePresence>
+        {error && result && (
+          <motion.div
+            initial={{ opacity: 0, y: -6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            className="mb-4 flex items-center gap-2.5 px-4 py-3 rounded-xl bg-red-500/8 border border-red-500/20"
+            role="alert"
+          >
+            <AlertTriangle className="w-3.5 h-3.5 text-red-400 shrink-0" aria-hidden="true" />
+            <p className="text-[12px] text-red-400">{error}</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
       {/* Section header */}
       <div className="mb-6 flex items-center justify-between">
         <div>

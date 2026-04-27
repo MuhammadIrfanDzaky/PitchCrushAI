@@ -1,5 +1,51 @@
 import { NextRequest, NextResponse } from "next/server";
-import type { AnalyzeRequest, AnalysisResult } from "@/lib/types/analysis";
+import { z } from "zod";
+import type { AnalysisResult } from "@/lib/types/analysis";
+
+/* ─── Input allowlists ──────────────────────────────────────────── */
+
+const VALID_CONTEXTS = new Set([
+  "recruiter",
+  "client",
+  "dating",
+  "business",
+  "friendship",
+  "family",
+  "negotiation",
+  "general",
+]);
+
+const VALID_GOALS = new Set([
+  "understand",
+  "win_deal",
+  "reply_smart",
+  "spot_manipulation",
+  "improve_chances",
+]);
+
+/* ─── Zod schema for AI response ────────────────────────────────── */
+
+const ToneVariantSchema = z.enum(["amber", "blue", "emerald", "slate", "purple", "red"]);
+
+const AnalysisResultSchema = z.object({
+  surfaceMeaning: z.string().min(1),
+  hiddenIntent: z.string().min(1),
+  interestScore: z.number().int().min(0).max(100),
+  powerDynamic: z.object({
+    label: z.string().min(1),
+    senderScore: z.number().int().min(0).max(100),
+    description: z.string().min(1),
+  }),
+  emotionalTone: z
+    .array(z.object({ label: z.string().min(1), variant: ToneVariantSchema }))
+    .min(1)
+    .max(5),
+  redFlags: z
+    .array(z.object({ flag: z.string().min(1), detail: z.string() }))
+    .max(5),
+  recommendedReply: z.string().min(1),
+  confidenceScore: z.number().int().min(0).max(100),
+});
 
 /* ─── System prompt ────────────────────────────────────────────── */
 
@@ -42,57 +88,9 @@ Rules:
 - confidenceScore: integer 0–100. Your confidence in this analysis given available context.
 - Return ONLY the JSON object. No markdown, no code fences, no explanation outside the JSON.`;
 
-/* ─── Input sanitisation helpers ───────────────────────────────── */
-
-function clamp(n: unknown, min: number, max: number): number {
-  const num = typeof n === "number" ? n : parseInt(String(n), 10);
-  if (isNaN(num)) return min;
-  return Math.min(max, Math.max(min, Math.round(num)));
-}
-
-const VALID_VARIANTS = new Set(["amber", "blue", "emerald", "slate", "purple", "red"]);
-
-function sanitizeResult(raw: Record<string, unknown>): AnalysisResult {
-  const tone = Array.isArray(raw.emotionalTone)
-    ? (raw.emotionalTone as Array<{ label?: unknown; variant?: unknown }>)
-        .filter((t) => t && typeof t.label === "string")
-        .map((t) => ({
-          label: String(t.label),
-          variant: VALID_VARIANTS.has(String(t.variant)) ? String(t.variant) : "slate",
-        }))
-        .slice(0, 5)
-    : [];
-
-  const redFlags = Array.isArray(raw.redFlags)
-    ? (raw.redFlags as Array<{ flag?: unknown; detail?: unknown }>)
-        .filter((f) => f && typeof f.flag === "string")
-        .map((f) => ({ flag: String(f.flag), detail: String(f.detail ?? "") }))
-        .slice(0, 5)
-    : [];
-
-  const pd = raw.powerDynamic && typeof raw.powerDynamic === "object"
-    ? (raw.powerDynamic as Record<string, unknown>)
-    : {};
-
-  return {
-    surfaceMeaning: String(raw.surfaceMeaning ?? ""),
-    hiddenIntent: String(raw.hiddenIntent ?? ""),
-    interestScore: clamp(raw.interestScore, 0, 100),
-    powerDynamic: {
-      label: String(pd.label ?? "Balanced dynamic"),
-      senderScore: clamp(pd.senderScore, 0, 100),
-      description: String(pd.description ?? ""),
-    },
-    emotionalTone: tone,
-    redFlags,
-    recommendedReply: String(raw.recommendedReply ?? ""),
-    confidenceScore: clamp(raw.confidenceScore, 0, 100),
-  } as AnalysisResult;
-}
-
 /* ─── Parse JSON with fallback strategies ───────────────────────── */
 
-function parseJSON(text: string): Record<string, unknown> {
+function parseJSON(text: string): unknown {
   // 1. Direct parse
   try {
     return JSON.parse(text);
@@ -123,37 +121,59 @@ function parseJSON(text: string): Record<string, unknown> {
 /* ─── Route handler ─────────────────────────────────────────────── */
 
 export async function POST(req: NextRequest) {
-  // Parse request body
-  let body: AnalyzeRequest;
+  // Parse and validate request body
+  let rawBody: unknown;
   try {
-    body = await req.json();
+    rawBody = await req.json();
   } catch {
     return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
   }
 
-  const { message, context, goal } = body;
+  const bodySchema = z.object({
+    message: z.string(),
+    context: z.string().optional(),
+    goal: z.string().optional(),
+  });
 
-  // Validate required fields
-  if (!message || typeof message !== "string" || message.trim().length === 0) {
+  const bodyParse = bodySchema.safeParse(rawBody);
+  if (!bodyParse.success) {
+    return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
+  }
+
+  const { message, context: rawContext, goal: rawGoal } = bodyParse.data;
+
+  // Validate message
+  if (!message.trim()) {
     return NextResponse.json({ error: "Message is required." }, { status: 400 });
   }
   if (message.trim().length > 2000) {
-    return NextResponse.json({ error: "Message exceeds the 2000 character limit." }, { status: 400 });
+    return NextResponse.json(
+      { error: "Message exceeds the 2000 character limit." },
+      { status: 400 }
+    );
   }
+
+  // Validate context and goal against allowlists
+  const context = VALID_CONTEXTS.has(rawContext ?? "") ? (rawContext as string) : "general";
+  const goal = VALID_GOALS.has(rawGoal ?? "") ? (rawGoal as string) : "understand";
 
   const apiKey = process.env.OPENROUTER_API_KEY;
   if (!apiKey) {
     console.error("OPENROUTER_API_KEY is not set");
-    return NextResponse.json({ error: "Service not configured." }, { status: 500 });
+    return NextResponse.json({ error: "Service not configured." }, { status: 401 });
   }
 
-  const userPrompt = `Context: ${context || "general"}
-Goal: ${goal || "understand"}
+  const userPrompt = `Context: ${context}
+Goal: ${goal}
 
 Message to analyze:
 """
 ${message.trim()}
 """`;
+
+  // Abort controller for 25 second timeout
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 25_000);
 
   try {
     const openRouterRes = await fetch("https://openrouter.ai/api/v1/chat/completions", {
@@ -173,11 +193,27 @@ ${message.trim()}
         max_tokens: 1500,
         temperature: 0.3,
       }),
+      signal: controller.signal,
     });
+
+    clearTimeout(timeoutId);
 
     if (!openRouterRes.ok) {
       const errText = await openRouterRes.text();
       console.error("OpenRouter error:", openRouterRes.status, errText);
+
+      if (openRouterRes.status === 429) {
+        return NextResponse.json(
+          { error: "Too many requests. Please wait a moment and try again." },
+          { status: 429 }
+        );
+      }
+      if (openRouterRes.status === 401 || openRouterRes.status === 403) {
+        return NextResponse.json(
+          { error: "Authentication error. Service not configured correctly." },
+          { status: 401 }
+        );
+      }
       return NextResponse.json(
         { error: "AI service returned an error. Please try again." },
         { status: 502 }
@@ -191,11 +227,40 @@ ${message.trim()}
       return NextResponse.json({ error: "Empty response from AI service." }, { status: 502 });
     }
 
-    const parsed = parseJSON(rawContent);
-    const result = sanitizeResult(parsed);
+    // Parse raw text → JSON
+    let parsed: unknown;
+    try {
+      parsed = parseJSON(rawContent);
+    } catch {
+      console.error("JSON parse failed for content:", rawContent.slice(0, 300));
+      return NextResponse.json(
+        { error: "AI returned an unreadable response. Please try again." },
+        { status: 422 }
+      );
+    }
 
+    // Zod schema validation
+    const validated = AnalysisResultSchema.safeParse(parsed);
+    if (!validated.success) {
+      console.error("Schema validation failed:", validated.error.flatten());
+      return NextResponse.json(
+        { error: "AI response did not match expected structure. Please try again." },
+        { status: 422 }
+      );
+    }
+
+    const result: AnalysisResult = validated.data;
     return NextResponse.json({ result });
   } catch (err) {
+    clearTimeout(timeoutId);
+
+    if (err instanceof Error && err.name === "AbortError") {
+      return NextResponse.json(
+        { error: "Analysis timed out. Please try again." },
+        { status: 504 }
+      );
+    }
+
     console.error("Analyze route error:", err);
     return NextResponse.json(
       { error: "Failed to analyze message. Please try again." },

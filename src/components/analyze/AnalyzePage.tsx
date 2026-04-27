@@ -14,11 +14,14 @@ export function AnalyzePage() {
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  // Track whether we're re-analyzing on top of an existing result
+  const isReanalyzing = isLoading && result !== null;
 
   async function handleAnalyze() {
     if (!message.trim() || isLoading) return;
     setIsLoading(true);
     setError(null);
+    // Do NOT clear result here — keep previous visible during re-analyze
     try {
       const res = await fetch("/api/analyze", {
         method: "POST",
@@ -28,13 +31,12 @@ export function AnalyzePage() {
       const data = await res.json();
       if (!res.ok) {
         setError(data.error ?? "Something went wrong. Please try again.");
-        setResult(null);
+        // Leave previous result visible on error
       } else {
         setResult(data.result);
       }
     } catch {
       setError("Network error. Please check your connection and try again.");
-      setResult(null);
     } finally {
       setIsLoading(false);
     }
@@ -100,7 +102,12 @@ export function AnalyzePage() {
 
         {/* Right: Results */}
         <main className="flex-1 lg:overflow-y-auto">
-          <ResultsDashboard isLoading={isLoading} result={result} error={error} />
+          <ResultsDashboard
+            isLoading={isLoading}
+            isReanalyzing={isReanalyzing}
+            result={result}
+            error={error}
+          />
         </main>
       </div>
     </div>
