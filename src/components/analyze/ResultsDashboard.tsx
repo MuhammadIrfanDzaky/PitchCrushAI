@@ -19,6 +19,44 @@ import {
 import { AnalyzingLoader, ReanalyzingOverlay } from "./AnalyzingLoader";
 import type { AnalysisResult } from "@/lib/types/analysis";
 
+/* ─── Mode-aware card labels ────────────────────────────────────── */
+
+const RED_FLAGS_LABEL: Record<string, string> = {
+  investor:      "Investor Red Flags",
+  customer:      "Customer Objections",
+  competitor:    "Competitive Threats",
+  demo_day:      "Pitch Red Flags",
+  cold_email:    "Cold Email Red Flags",
+  board:         "Board Red Flags",
+  yc_accel:      "Accelerator Red Flags",
+  general:       "Red Flags",
+  incumbent_kill:"Incumbent Threats",
+};
+
+const QUESTION_LABEL: Record<string, string> = {
+  investor:      "Likely Investor Question",
+  customer:      "Likely Buyer Question",
+  competitor:    "Likely Rival Attack",
+  demo_day:      "Likely Audience Question",
+  cold_email:    "Likely Delete Trigger",
+  board:         "Likely Board Challenge",
+  yc_accel:      "Likely Partner Question",
+  general:       "Toughest Question",
+  incumbent_kill:"Likely Incumbent Attack",
+};
+
+const QUESTION_FOOTER: Record<string, string> = {
+  investor:      "Prepare a crisp, direct answer to this before your next pitch meeting.",
+  customer:      "Prepare a concrete response to this before your next sales call.",
+  competitor:    "Anticipate this attack and have a sharp counter-positioning ready.",
+  demo_day:      "Rehearse a confident, punchy answer to this for your demo.",
+  cold_email:    "Address this objection in your subject line or first sentence.",
+  board:         "Have data and a clear narrative ready before the next board meeting.",
+  yc_accel:      "This is the question that decides batch admission — nail it.",
+  general:       "Prepare a crisp, direct answer to this before your next pitch.",
+  incumbent_kill:"Have a specific, structural answer ready — not just positioning language.",
+};
+
 /* ─── Color map for doubt chips ─────────────────────────────────── */
 
 const DOUBT_STYLES: Record<string, { text: string; bg: string; border: string }> = {
@@ -126,15 +164,15 @@ function CardHeader({
 /* ─── Idle / empty state ─────────────────────────────────────────── */
 
 const SIGNAL_PREVIEW = [
-  { label: "Skepticism Score",   color: "text-red-600",     bg: "bg-red-50",     border: "border-red-200"     },
+  { label: "Pressure Signals",  color: "text-red-600",     bg: "bg-red-50",     border: "border-red-200"     },
   { label: "Clarity Score",      color: "text-emerald-700", bg: "bg-emerald-50", border: "border-emerald-200" },
   { label: "Biggest Weakness",   color: "text-amber-700",   bg: "bg-amber-50",   border: "border-amber-200"   },
-  { label: "Likely Question",    color: "text-blue-700",    bg: "bg-blue-50",    border: "border-blue-200"    },
+  { label: "Toughest Question",  color: "text-blue-700",    bg: "bg-blue-50",    border: "border-blue-200"    },
   { label: "Moat Risk",          color: "text-purple-700",  bg: "bg-purple-50",  border: "border-purple-200"  },
   { label: "Customer Doubt",     color: "text-amber-700",   bg: "bg-amber-50",   border: "border-amber-200"   },
   { label: "Weak Phrases",       color: "text-sky-700",     bg: "bg-sky-50",     border: "border-sky-200"     },
   { label: "Stronger Rewrite",   color: "text-emerald-700", bg: "bg-emerald-50", border: "border-emerald-200" },
-  { label: "Investor Red Flags", color: "text-red-600",     bg: "bg-red-50",     border: "border-red-200"     },
+  { label: "Red Flags",          color: "text-red-600",     bg: "bg-red-50",     border: "border-red-200"     },
 ] as const;
 
 function IdleState() {
@@ -151,7 +189,7 @@ function IdleState() {
           Ready to crush your pitch
         </p>
         <p className="text-[12px] text-stone-500 mt-1.5 leading-relaxed max-w-64">
-          Paste your pitch and hit Analyze &mdash; we&apos;ll stress test it like a skeptical investor.
+          Paste your pitch and hit Analyze &mdash; we&apos;ll stress test it from the selected angle.
         </p>
       </div>
       <div className="flex flex-wrap justify-center gap-2 max-w-xs">
@@ -195,9 +233,10 @@ interface ResultsDashboardProps {
   isReanalyzing: boolean;
   result: AnalysisResult | null;
   error: string | null;
+  context?: string;
 }
 
-export function ResultsDashboard({ isLoading, isReanalyzing, result, error }: ResultsDashboardProps) {
+export function ResultsDashboard({ isLoading, isReanalyzing, result, error, context = "general" }: ResultsDashboardProps) {
   const [copied, setCopied] = useState(false);
 
   async function handleCopy(text: string) {
@@ -384,7 +423,7 @@ export function ResultsDashboard({ isLoading, isReanalyzing, result, error }: Re
           <CardHeader
             icon={<AlertTriangle className="w-3.5 h-3.5 text-red-400" />}
             iconColor="bg-red-500/10"
-            label="Investor Red Flags"
+            label={RED_FLAGS_LABEL[context] ?? "Red Flags"}   
             badge={
               result.investorRedFlags.length > 0 ? (
                 <span className="text-[11px] text-red-600 bg-red-50 border border-red-200 px-2.5 py-1 rounded-full font-medium">
@@ -506,18 +545,18 @@ export function ResultsDashboard({ isLoading, isReanalyzing, result, error }: Re
           </div>
         </Card>
 
-        {/* ── Likely Investor Question ── */}
+        {/* ── Likely Question ── */}
         <Card className="sm:col-span-2" delay={0.42}>
           <CardHeader
             icon={<HelpCircle className="w-3.5 h-3.5 text-blue-400" />}
             iconColor="bg-blue-500/10"
-            label="Likely Investor Question"
+            label={QUESTION_LABEL[context] ?? "Toughest Question"}
           />
           <p className="text-[13px] text-stone-800 leading-relaxed font-medium">
             &ldquo;{result.likelyInvestorQuestion}&rdquo;
           </p>
           <p className="text-[11px] text-stone-500 mt-2.5 leading-relaxed">
-            Prepare a crisp, direct answer to this before your next pitch meeting.
+            {QUESTION_FOOTER[context] ?? "Prepare a crisp, direct answer to this before your next pitch."}
           </p>
         </Card>
 

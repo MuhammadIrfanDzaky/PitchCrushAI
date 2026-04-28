@@ -314,8 +314,6 @@ function extractWeakPhrases(message: string): WeakPhrase[] {
 export function generateFallbackAnalysis(
   message: string,
   context: string,
-  // goal parameter available for future context-aware branching
-  _goal?: string
 ): AnalysisResult {
   const text = message.toLowerCase();
   const wordCount = message.trim().split(/\s+/).length;
@@ -365,7 +363,87 @@ export function generateFallbackAnalysis(
   // --- Weak phrases ---
   const weakPhrases = extractWeakPhrases(message);
 
-  // --- Customer doubt tags ---
+  // --- Customer doubt tags (incumbent_kill branch) ---
+  if (isIncumbentKill) {
+    const incumbentDoubt: DoubtTag[] = [
+      { label: "Switching cost too high?", variant: "red" },
+      { label: "Incumbent will bundle this", variant: "purple" },
+      { label: "Already committed to existing vendor", variant: "blue" },
+      { label: "Why not just wait for SAP/Salesforce/AWS to add it?", variant: "slate" },
+    ];
+    if (!hasTraction) incumbentDoubt.push({ label: "Unproven at enterprise scale", variant: "amber" });
+    else incumbentDoubt.push({ label: "Cautiously intrigued", variant: "emerald" });
+
+    // skip generic block
+    const customerDoubt = incumbentDoubt.slice(0, 5);
+
+    // --- Investor red flags (incumbent_kill branch) ---
+    const investorRedFlags: InvestorRedFlag[] = [
+      {
+        flag: "Incumbent bundling risk",
+        detail:
+          "The incumbent can replicate this feature at zero marginal cost and bundle it into their existing contract, eliminating the startup's pricing leverage overnight.",
+      },
+      {
+        flag: "Distribution lock-out",
+        detail:
+          "The incumbent owns the channel, the sales relationship, and the enterprise install base — forcing the startup to fight for budget that is already committed.",
+      },
+    ];
+    if (!hasMoat) {
+      investorRedFlags.push({
+        flag: "No structural moat against platform players",
+        detail:
+          "Without proprietary data, a network effect, or deep workflow integration, an incumbent can replicate this with a sprint team and ship it as a free tier feature.",
+      });
+    }
+    if (!hasTraction) {
+      investorRedFlags.push({
+        flag: "No proof of beating the incumbent",
+        detail:
+          "There's no evidence that customers chose this over an incumbent's native offering — the hardest signal to generate in enterprise markets.",
+      });
+    }
+
+    // --- Biggest weakness (incumbent_kill branch) ---
+    const biggestWeakness =
+      "The pitch does not directly address the central incumbent threat: a large established player can observe this product's traction, assign a sprint team, and ship a good-enough version bundled at no additional cost to their existing customers. The startup's biggest unresolved risk is distribution — the incumbent already owns the sales relationship, the enterprise contract, and the renewal cycle. Without a structural wedge that the incumbent cannot replicate (proprietary data, workflow depth, or a community the incumbent would destroy by acquiring), this pitch is essentially a product roadmap for a larger competitor.";
+
+    // --- Likely question (incumbent_kill branch) ---
+    const likelyInvestorQuestion = hasTraction
+      ? "What specifically prevents Salesforce, Microsoft, or a well-resourced incumbent from shipping a feature-equivalent at their next release cycle?"
+      : "Do you have a single enterprise customer who explicitly rejected their incumbent's native solution to pay for yours — and if not, why would they?";
+
+    // --- Moat risk (incumbent_kill branch) ---
+    const moatRisk = {
+      label: hasMoat ? "Partial moat — incumbent pressure high" : "Easily absorbed by incumbent",
+      riskScore: hasMoat ? 65 : 87,
+      description: hasMoat
+        ? "Some defensibility signals are present, but incumbents can match surface-level features quickly. The moat needs to be structural — deep integration, proprietary data, or network effects the incumbent cannot replicate without breaking their existing user base."
+        : "No structural barrier to incumbent replication is articulated. At enterprise scale, incumbents win by default unless the startup can demonstrate a moat the incumbent would actively destroy by copying.",
+    };
+
+    // --- Stronger rewrite ---
+    const strongerRewrite = buildStrongerRewrite(message, hasTraction, hasMoat, hasProblem);
+
+    return {
+      skepticismScore,
+      clarityScore,
+      biggestWeakness,
+      moatRisk,
+      customerDoubt: customerDoubt.slice(0, 5),
+      likelyInvestorQuestion,
+      investorRedFlags: investorRedFlags.slice(0, 4),
+      weakPhrases,
+      strongerRewrite,
+      confidenceScore: Math.min(
+        55 + (hasTraction ? 12 : 0) + (hasSpecificMetrics ? 6 : 0),
+        78
+      ),
+    };
+  }
+
+  // --- Customer doubt tags (all other modes) ---
   const customerDoubt: DoubtTag[] = [];
 
   if (!hasTraction) {
@@ -388,7 +466,7 @@ export function generateFallbackAnalysis(
     customerDoubt.push({ label: "Needs more specifics", variant: "slate" });
   }
 
-  // --- Investor red flags ---
+  // --- Investor red flags (all other modes) ---
   const investorRedFlags: InvestorRedFlag[] = [];
 
   if (!hasTraction && isInvestorContext) {

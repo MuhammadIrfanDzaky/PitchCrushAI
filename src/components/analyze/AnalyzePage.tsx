@@ -117,6 +117,7 @@ export function AnalyzePage() {
             isReanalyzing={isReanalyzing}
             result={result}
             error={error}
+            context={context}
           />
         </main>
       </div>

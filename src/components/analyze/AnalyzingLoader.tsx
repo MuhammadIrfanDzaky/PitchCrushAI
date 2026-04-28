@@ -4,14 +4,14 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 const MESSAGES = [
-  "Scanning investor objections...",
+  "Scanning pressure signals...",
   "Assessing competitive moat...",
   "Finding critical weaknesses...",
   "Crafting stronger rewrite...",
 ];
 
 const STEPS = [
-  { label: "Investor signals", pct: 22 },
+  { label: "Pressure signals", pct: 22 },
   { label: "Moat analysis",    pct: 47 },
   { label: "Weak points",      pct: 73 },
   { label: "Rewrite",          pct: 91 },
