@@ -19,7 +19,7 @@ const sora = Sora({
 });
 
 export const metadata: Metadata = {
-  title: "PitchCrush AI — Stress test your startup before investors do.",
+  title: "PitchCrush AI",
   description:
     "AI pitch intelligence. Paste your pitch and get brutal investor-grade feedback: skepticism score, moat risk, weak phrases, red flags, and a stronger rewrite.",
 };

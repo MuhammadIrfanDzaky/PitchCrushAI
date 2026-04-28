@@ -2,6 +2,7 @@
 
 import { useState, useRef, useCallback } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Plus } from "lucide-react";
 import { InputPanel } from "./InputPanel";
 import { ResultsDashboard } from "./ResultsDashboard";
@@ -66,16 +67,17 @@ export function AnalyzePage() {
       <header className="shrink-0 h-14 flex items-center justify-between px-5 border-b border-[#E7E0D6] bg-[#F7F3EA] z-10">
         <Link
           href="/"
-          className="flex items-center gap-2 select-none"
+          className="flex items-center select-none"
           aria-label="PitchCrush AI home"
         >
-          <div className="flex flex-col gap-0.75" aria-hidden="true">
-            <span className="block w-4 h-px bg-red-500" />
-            <span className="block w-2.5 h-px bg-red-400/60" />
-          </div>
-          <span className="font-semibold text-[#171717] text-[15px] tracking-tight leading-none">
-            PitchCrush<span className="text-red-500">AI</span>
-          </span>
+          <Image
+            src="/img/logo.png"
+            alt="PitchCrush AI"
+            width={180}
+            height={48}
+            priority
+            className="h-7 w-auto md:h-8"
+          />
         </Link>
 
         <div className="flex items-center gap-3">

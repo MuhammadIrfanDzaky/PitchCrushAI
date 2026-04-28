@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -29,17 +30,17 @@ export function Navbar() {
         {/* Logo */}
         <Link
           href="/"
-          className="flex items-center gap-2 select-none group"
+          className="flex items-center select-none"
           aria-label="PitchCrush AI home"
         >
-          {/* Logo mark: target/crush icon */}
-          <div className="flex flex-col gap-0.75 py-0.5" aria-hidden="true">
-            <span className="block w-4 h-px bg-red-500" />
-            <span className="block w-2.5 h-px bg-red-400/60" />
-          </div>
-          <span className="font-semibold text-stone-900 text-[15px] tracking-tight leading-none">
-            PitchCrush<span className="text-red-500">AI</span>
-          </span>
+          <Image
+            src="/img/logo.png"
+            alt="PitchCrush AI"
+            width={180}
+            height={48}
+            priority
+            className="h-8 w-auto md:h-9"
+          />
         </Link>
 
         {/* Nav links */}
