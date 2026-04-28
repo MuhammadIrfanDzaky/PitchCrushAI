@@ -163,21 +163,80 @@ function CardHeader({
 
 /* ─── Idle / empty state ─────────────────────────────────────────── */
 
-const SIGNAL_PREVIEW = [
-  { label: "Pressure Signals",  color: "text-red-600",     bg: "bg-red-50",     border: "border-red-200"     },
-  { label: "Clarity Score",      color: "text-emerald-700", bg: "bg-emerald-50", border: "border-emerald-200" },
-  { label: "Biggest Weakness",   color: "text-amber-700",   bg: "bg-amber-50",   border: "border-amber-200"   },
-  { label: "Toughest Question",  color: "text-blue-700",    bg: "bg-blue-50",    border: "border-blue-200"    },
-  { label: "Moat Risk",          color: "text-purple-700",  bg: "bg-purple-50",  border: "border-purple-200"  },
-  { label: "Customer Doubt",     color: "text-amber-700",   bg: "bg-amber-50",   border: "border-amber-200"   },
-  { label: "Weak Phrases",       color: "text-sky-700",     bg: "bg-sky-50",     border: "border-sky-200"     },
-  { label: "Stronger Rewrite",   color: "text-emerald-700", bg: "bg-emerald-50", border: "border-emerald-200" },
-  { label: "Red Flags",          color: "text-red-600",     bg: "bg-red-50",     border: "border-red-200"     },
-] as const;
+type SignalCardColor = {
+  bg: string;
+  border: string;
+  icon: string;
+  hoverBorder: string;
+};
+
+type SignalCard = {
+  label: string;
+  Icon: React.ComponentType<{ className?: string }>;
+  descriptor: string;
+  color: SignalCardColor;
+};
+
+const SIGNAL_CARDS: SignalCard[] = [
+  {
+    label: "Skepticism Score",
+    Icon: TrendingDown,
+    descriptor: "0–100 pressure rating",
+    color: { bg: "bg-red-50/50",     border: "border-red-200/70",     icon: "text-red-400",     hoverBorder: "hover:border-red-300/80"     },
+  },
+  {
+    label: "Clarity Score",
+    Icon: Activity,
+    descriptor: "Message sharpness",
+    color: { bg: "bg-emerald-50/40", border: "border-emerald-200/60", icon: "text-emerald-500", hoverBorder: "hover:border-emerald-300/70" },
+  },
+  {
+    label: "Biggest Weakness",
+    Icon: Target,
+    descriptor: "Core flaw analysis",
+    color: { bg: "bg-amber-50/50",   border: "border-amber-200/60",   icon: "text-amber-500",   hoverBorder: "hover:border-amber-300/80"   },
+  },
+  {
+    label: "Moat Risk",
+    Icon: ShieldAlert,
+    descriptor: "Defensibility rating",
+    color: { bg: "bg-purple-50/40",  border: "border-purple-200/60",  icon: "text-purple-500",  hoverBorder: "hover:border-purple-300/70"  },
+  },
+  {
+    label: "Customer Doubt",
+    Icon: Zap,
+    descriptor: "Buyer friction tags",
+    color: { bg: "bg-orange-50/40",  border: "border-orange-200/60",  icon: "text-orange-400",  hoverBorder: "hover:border-orange-300/70"  },
+  },
+  {
+    label: "Weak Phrases",
+    Icon: Quote,
+    descriptor: "Language cringe flags",
+    color: { bg: "bg-sky-50/40",     border: "border-sky-200/60",     icon: "text-sky-500",     hoverBorder: "hover:border-sky-300/70"     },
+  },
+  {
+    label: "Red Flags",
+    Icon: AlertTriangle,
+    descriptor: "Critical deal-killers",
+    color: { bg: "bg-red-50/70",     border: "border-red-300/60",     icon: "text-red-600",     hoverBorder: "hover:border-red-400/80"     },
+  },
+  {
+    label: "Stronger Rewrite",
+    Icon: MessageSquare,
+    descriptor: "AI-improved pitch",
+    color: { bg: "bg-green-50/40",   border: "border-green-200/60",   icon: "text-green-500",   hoverBorder: "hover:border-green-300/70"   },
+  },
+  {
+    label: "Toughest Question",
+    Icon: HelpCircle,
+    descriptor: "Hardest challenge",
+    color: { bg: "bg-indigo-50/40",  border: "border-indigo-200/60",  icon: "text-indigo-500",  hoverBorder: "hover:border-indigo-300/70"  },
+  },
+];
 
 function IdleState() {
   return (
-    <div className="flex flex-col items-center justify-center h-full min-h-90 gap-7 p-8 select-none">
+    <div className="flex flex-col items-center justify-center h-full min-h-90 gap-8 p-8 select-none">
       <div
         className="w-12 h-12 rounded-2xl bg-red-50 border border-red-200 flex items-center justify-center"
         aria-hidden="true"
@@ -192,16 +251,31 @@ function IdleState() {
           Paste your pitch and hit Analyze &mdash; we&apos;ll stress test it from the selected angle.
         </p>
       </div>
-      <div className="flex flex-wrap justify-center gap-2 max-w-xs">
-        {SIGNAL_PREVIEW.map(({ label, color, bg, border }) => (
-          <span
-            key={label}
-            className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-medium border ${color} ${bg} ${border} opacity-50`}
-          >
-            <span className="w-1 h-1 rounded-full bg-current" aria-hidden="true" />
-            {label}
-          </span>
-        ))}
+
+      {/* 3×3 signal audit grid */}
+      <div className="w-full max-w-xs">
+        <p className="text-[10px] text-stone-400 font-medium tracking-widest uppercase text-center mb-3">
+          9 signal layers
+        </p>
+        <div className="grid grid-cols-3 gap-2">
+          {SIGNAL_CARDS.map(({ label, Icon, descriptor, color }) => (
+            <div
+              key={label}
+              className={`flex flex-col gap-1.5 p-2.5 rounded-xl border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm ${color.bg} ${color.border} ${color.hoverBorder}`}
+            >
+              <Icon
+                className={`w-3.5 h-3.5 shrink-0 ${color.icon}`}
+                aria-hidden="true"
+              />
+              <span className="text-[10px] font-semibold text-stone-700 leading-tight">
+                {label}
+              </span>
+              <span className="text-[9px] text-stone-400 leading-snug">
+                {descriptor}
+              </span>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

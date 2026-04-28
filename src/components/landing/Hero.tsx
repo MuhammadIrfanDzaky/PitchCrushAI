@@ -5,12 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 
-const STATS = [
-  { value: "Free",  label: "No signup required" },
-  { value: "< 5s",  label: "Per analysis" },
-  { value: "9",     label: "Signal layers" },
-] as const;
-
 const SIGNAL_EXAMPLES = [
   { phrase: "We're Uber for lawyers",        signal: "Generic positioning detected", variant: "red"   as const },
   { phrase: "AI helps SMBs grow",             signal: "No moat signal",              variant: "amber" as const },
@@ -175,9 +169,9 @@ const itemVariants = {
 
 export function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center px-6 pt-24 pb-20 overflow-hidden">
-      {/* Ambient glow */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
+    <section className="relative min-h-screen flex items-center px-6 pt-20 pb-16">
+      {/* Background glows — overflow-hidden scoped here so section content can breathe */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute top-1/4 left-1/4 w-175 h-175 rounded-full bg-red-400/8 blur-[160px]" />
         <div className="absolute bottom-1/3 right-1/4 w-100 h-100 rounded-full bg-amber-400/6 blur-[100px]" />
       </div>
@@ -262,22 +256,6 @@ export function Hero() {
               </Link>
             </motion.div>
 
-            {/* Stats row */}
-            <motion.div variants={itemVariants} className="flex items-center gap-0 pt-1">
-              {STATS.map(({ value, label }, i) => (
-                <div key={label} className="flex items-center">
-                  <div className="pr-6">
-                    <p className="text-xl font-semibold text-stone-900 tracking-tight tabular-nums">
-                      {value}
-                    </p>
-                    <p className="text-[11px] text-stone-500 mt-0.5">{label}</p>
-                  </div>
-                  {i < STATS.length - 1 && (
-                    <div className="w-px h-8 bg-[#E7E0D6] mr-6" aria-hidden="true" />
-                  )}
-                </div>
-              ))}
-            </motion.div>
           </motion.div>
 
           {/* Right: App mockup */}
