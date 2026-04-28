@@ -10,7 +10,7 @@ import type { AnalysisResult } from "@/lib/types/analysis";
 export function AnalyzePage() {
   const [message, setMessage] = useState("");
   const [context, setContext] = useState("investor");
-  const [goal, setGoal] = useState("find_weaknesses");
+  const [goal, setGoal] = useState("find_funding_weaknesses");
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -55,7 +55,7 @@ export function AnalyzePage() {
   function handleReset() {
     setMessage("");
     setContext("investor");
-    setGoal("find_weaknesses");
+    setGoal("find_funding_weaknesses");
     setResult(null);
     setError(null);
   }
